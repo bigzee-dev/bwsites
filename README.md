@@ -1,36 +1,17 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+### Botswana Online
 
-## Getting Started
+**Botswana Online** is a curated guide to Botswana's digital world, helping people discover the country's most useful, reliable, and trustworthy websites.
 
-First, run the development server:
+Finding quality local websites through traditional search engines can often be frustrating. Search results frequently include websites that are outdated, poorly maintained, slow to load, no longer operational, missing basic security such as SSL certificates, or belong to businesses and organizations that no longer provide a quality service. This makes it difficult for users to quickly find the information or services they need.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Botswana Online was created to solve this problem.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Rather than relying solely on automated search engine rankings, our team carefully researches, evaluates, and curates websites from across Botswana. Because we live and work in Botswana, we understand the local digital landscape and regularly interact with the websites, businesses, and organizations that serve our communities. We know which websites consistently provide valuable information, deliver quality services, remain actively maintained, and offer a reliable user experience.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Every website featured on Botswana Online has been selected because we believe it meets a high standard of quality. We prioritize websites that are secure, regularly updated, informative, easy to use, dependable, and operated by reputable businesses, government institutions, non-profit organizations, and other trusted entities.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Whether you're looking for government services, tourism information, financial institutions, educational resources, healthcare providers, online shopping, business services, or any other category, Botswana Online makes it easy to discover the best websites Botswana has to offer.
 
-## Learn More
+Instead of searching through pages of search engine results, simply search for a category or service—such as **Tourism**, **Banking**, **Jobs**, **Education**, or **Healthcare**—and Botswana Online will present a carefully curated selection of websites that we believe are the best choices for that need.
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Our mission is simple: **to make discovering Botswana's best online resources fast, easy, and trustworthy.**
