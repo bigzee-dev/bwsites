@@ -1,6 +1,5 @@
 import { redirect } from "next/navigation";
 
-import { DashboardShell } from "@/components/admin/dashboard-shell";
 import { SitesTable } from "@/components/admin/sites-table";
 import { getAdminSession } from "@/lib/admin/auth";
 import { getCategories } from "@/lib/admin/categories";
@@ -12,9 +11,5 @@ export default async function AdminSitesPage() {
 
   const [sites, categories] = await Promise.all([getSites(), getCategories()]);
 
-  return (
-    <DashboardShell title="Sites" user={session.user} categories={categories}>
-      <SitesTable sites={sites} categories={categories} />
-    </DashboardShell>
-  );
+  return <SitesTable sites={sites} categories={categories} />;
 }

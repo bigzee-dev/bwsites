@@ -3,21 +3,15 @@ import { AdminLoginForm } from "@/components/admin/admin-login-form";
 import { AdminSignUpForm } from "@/components/admin/admin-signup-form";
 import { AdminBrandPanel } from "@/components/admin/admin-brand-panel";
 import { DashboardHome } from "@/components/admin/dashboard-home";
-import { DashboardShell } from "@/components/admin/dashboard-shell";
-import { getCategories } from "@/lib/admin/categories";
 import { getDashboardStats } from "@/lib/admin/dashboard";
 
 export default async function AdminPage() {
   const session = await getAdminSession();
 
   if (session) {
-    const [stats, categories] = await Promise.all([getDashboardStats(), getCategories()]);
+    const stats = await getDashboardStats();
 
-    return (
-      <DashboardShell title="Home" user={session.user} categories={categories}>
-        <DashboardHome stats={stats} />
-      </DashboardShell>
-    );
+    return <DashboardHome stats={stats} />;
   }
 
   const hasAdmin = await adminExists();

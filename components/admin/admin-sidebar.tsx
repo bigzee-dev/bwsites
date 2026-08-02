@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/sheet";
 import { AdminLogoutButton } from "@/components/admin/admin-logout-button";
 
-const NAV_ITEMS = [
+export const NAV_ITEMS = [
   { href: "/admin", label: "Home", icon: LayoutDashboard },
   { href: "/admin/sites", label: "Sites", icon: Globe },
   { href: "/admin/categories", label: "Categories", icon: Tags },
