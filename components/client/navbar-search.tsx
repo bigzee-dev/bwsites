@@ -32,7 +32,9 @@ export function NavbarSearch({
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const trimmed = query.trim();
-    router.push(trimmed ? `/search?q=${encodeURIComponent(trimmed)}` : "/search");
+    router.push(
+      trimmed ? `/search?q=${encodeURIComponent(trimmed)}` : "/search",
+    );
   }
 
   return (
@@ -41,15 +43,18 @@ export function NavbarSearch({
         <Input
           type="search"
           name="q"
-          placeholder="Search sites, tags, categories..."
+          placeholder="Search sites..."
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           className={cn(
-            "text-ink-100 placeholder:text-neutral-400 border-ink-300 focus-visible:ring-ink-200",
+            "bg-white/5 text-ink-100 placeholder:text-neutral-400 border-ink-300 focus-visible:ring-ink-200",
             inputClassName,
           )}
         />
-        <Button type="submit" className={cn("bg-white text-ink-700 shrink-0", buttonClassName)}>
+        <Button
+          type="submit"
+          className={cn("bg-white text-ink-700 shrink-0", buttonClassName)}
+        >
           Search
         </Button>
       </Field>

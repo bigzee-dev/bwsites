@@ -34,7 +34,7 @@ export default async function SitePage({ params }: SitePageProps) {
   if (!site) notFound();
 
   return (
-    <div className="flex flex-1 flex-col bg-background">
+    <div className="flex flex-1 flex-col bg-red-50">
       <main className="w-full flex-1">
         <Navbar />
 
@@ -49,11 +49,10 @@ export default async function SitePage({ params }: SitePageProps) {
             </Link>
 
             <div className="mt-6 overflow-hidden rounded-2xl ring-1 ring-foreground/10">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={site.image}
                 alt={site.name}
-                className="aspect-[16/7] w-full object-cover"
+                className="aspect-[16/7] w-full"
               />
             </div>
 
@@ -105,7 +104,7 @@ export default async function SitePage({ params }: SitePageProps) {
 
               <div className="flex h-fit flex-col gap-3 rounded-xl bg-card p-5 ring-1 ring-foreground/10 lg:col-span-1">
                 <span className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
-                  Visit this site
+                  Visit {site.name}
                 </span>
 
                 <a
@@ -114,7 +113,7 @@ export default async function SitePage({ params }: SitePageProps) {
                   rel="noreferrer"
                   className={cn(
                     buttonVariants({ variant: "default" }),
-                    "w-full",
+                    "w-full bg-brand-blue-700 dark:bg-brand-blue-500 text-ink-50",
                   )}
                 >
                   <ExternalLink className="size-4" />

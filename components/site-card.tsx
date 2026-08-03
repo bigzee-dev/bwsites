@@ -8,18 +8,19 @@ import type { SiteWithCategories } from "@/lib/client/sites";
 export function SiteCard({ site }: { site: SiteWithCategories }) {
   return (
     <Card className="h-full transition-shadow hover:shadow-md bg-cream-100 dark:bg-neutral-900">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={site.image}
-        alt={site.name}
-        className="aspect-16/8 w-full object-cover"
-      />
+      <Link href={`/site/${site.slug}`}>
+        <img
+          src={site.image}
+          alt={site.name}
+          className="aspect-16/8 w-full object-cover"
+        />
+      </Link>
       <CardHeader>
         <CardTitle className="flex items-center justify-between gap-2">
           {site.slug ? (
             <Link
               href={`/site/${site.slug}`}
-              className="truncate font-heading font-bold text-brand-blue-900 dark:text-ink-300 hover:underline"
+              className="truncate font-heading font-bold text-brand-blue-900 dark:text-ink-200 "
             >
               {site.name}
             </Link>

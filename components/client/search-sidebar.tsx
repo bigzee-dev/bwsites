@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ListFilter } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -70,16 +71,24 @@ function CategoryList({
   );
 }
 
+function useActiveSlug() {
+  const pathname = usePathname();
+  const prefix = "/search/";
+  return pathname.startsWith(prefix)
+    ? pathname.slice(prefix.length)
+    : undefined;
+}
+
 export function SearchSidebar({
   categories,
-  activeSlug,
 }: {
   categories: CategoryWithCount[];
-  activeSlug?: string;
 }) {
+  const activeSlug = useActiveSlug();
+
   return (
-    <aside className="hidden w-64 shrink-0 flex-col gap-2 lg:flex">
-      <h2 className="px-2.5 font-heading text-sm font-semibold tracking-wide text-muted-foreground uppercase">
+    <aside className="hidden w-64 shrink-0 flex-col gap-2 lg:flex pt-12">
+      <h2 className="px-2.5 font-heading text-base font-semibold tracking-wide text-ink-700 dark:text-ink-300 uppercase">
         Categories
       </h2>
       <CategoryList categories={categories} activeSlug={activeSlug} />
@@ -89,11 +98,10 @@ export function SearchSidebar({
 
 export function SearchMobileSidebar({
   categories,
-  activeSlug,
 }: {
   categories: CategoryWithCount[];
-  activeSlug?: string;
 }) {
+  const activeSlug = useActiveSlug();
   const [open, setOpen] = useState(false);
 
   return (

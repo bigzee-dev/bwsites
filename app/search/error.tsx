@@ -17,7 +17,7 @@ export default function SearchError({
   }, [error]);
 
   return (
-    <div className="flex min-h-svh flex-1 flex-col items-center justify-center gap-4 bg-background px-4 py-24 text-center">
+    <div className="flex flex-1 flex-col items-center justify-center gap-4 px-4 py-24 text-center">
       <AlertTriangle className="size-10 text-destructive" />
       <div>
         <p className="font-heading text-lg font-semibold text-foreground">

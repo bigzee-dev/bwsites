@@ -51,7 +51,7 @@ export function Navbar() {
                 key={l.href}
                 href={l.href}
                 onClick={(e) => scrollToHash(e, l.href)}
-                className="group inline-flex items-baseline gap-1.5 rounded-full px-3 py-2 text-sm font-medium text-ink-100 transition hover:text-clay-600 dark:text-ink-200 dark:hover:text-clay-300"
+                className="group inline-flex items-baseline gap-1.5 rounded-full px-3 py-2 text-sm font-medium text-ink-100 transition hover:text-clay-600 dark:hover:text-clay-300"
               >
                 <span>{l.label}</span>
               </Link>

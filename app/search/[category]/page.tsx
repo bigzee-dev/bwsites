@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { SearchShell } from "@/components/client/search-shell";
 import { SearchResults } from "@/components/search-results";
-import { getCategories, getCategoryBySlug } from "@/lib/client/categories";
+import { getCategoryBySlug } from "@/lib/client/categories";
 import { searchSites } from "@/lib/client/sites";
 
 type CategoryPageProps = {
@@ -29,14 +28,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 
   if (!category) notFound();
 
-  const [categories, sites] = await Promise.all([
-    getCategories(),
-    searchSites("", category.id),
-  ]);
+  const sites = await searchSites("", category.id);
 
-  return (
-    <SearchShell categories={categories} activeSlug={categorySlug}>
-      <SearchResults sites={sites} heading={category.name} />
-    </SearchShell>
-  );
+  return <SearchResults sites={sites} heading={category.name} />;
 }
