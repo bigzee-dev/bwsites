@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ExternalLink, Link2 } from "lucide-react";
-
+import { ExternalLink, Link2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Navbar } from "@/components/client/navbar";
 import { cn } from "@/lib/utils";
 import { getSiteBySlug } from "@/lib/client/sites";
+import BackButton from "@/components/client/backbutton";
+import ReactMarkdown from "react-markdown";
 
 type SitePageProps = {
   params: Promise<{ slug: string }>;
@@ -34,20 +34,13 @@ export default async function SitePage({ params }: SitePageProps) {
   if (!site) notFound();
 
   return (
-    <div className="flex flex-1 flex-col bg-red-50">
+    <div className="flex flex-1 flex-col ">
       <main className="w-full flex-1">
         <Navbar />
 
         <div className="bg-cream-50 dark:bg-ink-950">
           <div className="mx-auto max-w-5xl px-4 py-8 sm:px-2">
-            <Link
-              href="/"
-              className="inline-flex items-center gap-1.5 text-sm font-medium text-brand-blue-900 hover:underline dark:text-brand-blue-300"
-            >
-              <ArrowLeft className="size-4" />
-              Back to all sites
-            </Link>
-
+            <BackButton />
             <div className="mt-6 overflow-hidden rounded-2xl ring-1 ring-foreground/10">
               <img
                 src={site.image}
@@ -87,9 +80,15 @@ export default async function SitePage({ params }: SitePageProps) {
                   )}
                 </div>
 
-                <p className="font-sans text-base leading-relaxed dark:text-ink-200 text-ink-700 text-pretty">
-                  {site.description}
-                </p>
+                <div className="font-sans text-base leading-relaxed dark:text-ink-200 text-ink-700 text-pretty">
+                  <ReactMarkdown
+                    components={{
+                      p: ({ children }) => <p className="mb-4">{children}</p>,
+                    }}
+                  >
+                    {site.description}
+                  </ReactMarkdown>
+                </div>
 
                 {site.tags.length > 0 && (
                   <div className="flex flex-wrap gap-1.5">

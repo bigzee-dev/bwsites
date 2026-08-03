@@ -7,13 +7,9 @@ import type { SiteWithCategories } from "@/lib/client/sites";
 
 export function SiteCard({ site }: { site: SiteWithCategories }) {
   return (
-    <Card className="h-full transition-shadow hover:shadow-md bg-cream-100 dark:bg-neutral-900">
+    <Card className="h-full transition-shadow hover:shadow-md bg-cream-100 dark:bg-neutral-900 pt-0">
       <Link href={`/site/${site.slug}`}>
-        <img
-          src={site.image}
-          alt={site.name}
-          className="aspect-16/8 w-full object-cover"
-        />
+        <img src={site.image} alt={site.name} className="aspect-16/8 w-full " />
       </Link>
       <CardHeader>
         <CardTitle className="flex items-center justify-between gap-2">

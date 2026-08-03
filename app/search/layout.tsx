@@ -15,7 +15,7 @@ export default async function SearchLayout({
   const categories = await getCategories();
 
   return (
-    <div className="flex min-h-svh flex-1 flex-col bg-cream-50">
+    <div className="flex min-h-svh flex-1 flex-col bg-cream-50 dark:bg-ink-950">
       <Navbar />
       <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-6 px-4 py-6 sm:px-2 lg:flex-row lg:gap-8 lg:py-8">
         <SearchSidebar categories={categories} />
