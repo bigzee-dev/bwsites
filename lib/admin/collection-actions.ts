@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 
 import { getAdminSession } from "@/lib/admin/auth";
 import { collectionSchema } from "@/lib/admin/validation";
@@ -23,7 +23,7 @@ function parseCollectionFormData(formData: FormData) {
 function revalidateCollectionPaths() {
   revalidatePath("/admin");
   revalidatePath("/admin/collections");
-  revalidateTag("collections");
+  updateTag("collections");
 }
 
 export async function createCollection(formData: FormData): Promise<ActionResult> {

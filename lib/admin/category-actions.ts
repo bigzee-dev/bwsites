@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 
 import { getAdminSession } from "@/lib/admin/auth";
 import { categorySchema } from "@/lib/admin/validation";
@@ -17,8 +17,8 @@ function revalidateCategoryPaths() {
   revalidatePath("/admin");
   revalidatePath("/admin/categories");
   revalidatePath("/admin/sites");
-  revalidateTag("categories");
-  revalidateTag("sites");
+  updateTag("categories");
+  updateTag("sites");
 }
 
 export async function createCategory(formData: FormData): Promise<ActionResult> {
