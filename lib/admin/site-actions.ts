@@ -6,6 +6,7 @@ import { getAdminSession } from "@/lib/admin/auth";
 import { deleteImageFromR2, uploadImageToR2 } from "@/lib/admin/r2";
 import { siteSchema } from "@/lib/admin/validation";
 import { prisma } from "@/lib/prisma";
+import { slugify } from "@/lib/slug";
 
 type ActionResult = { success: true } | { success: false; error: string };
 
@@ -58,7 +59,7 @@ export async function createSite(formData: FormData): Promise<ActionResult> {
       data: {
         name,
         url,
-        slug: slug || null,
+        slug: slug || slugify(name),
         description,
         image: imageUrl,
         facebookUrl: facebookUrl || null,
@@ -111,7 +112,7 @@ export async function updateSite(id: string, formData: FormData): Promise<Action
       data: {
         name,
         url,
-        slug: slug || null,
+        slug: slug || slugify(name),
         description,
         facebookUrl: facebookUrl || null,
         whatsapp: whatsapp || null,
