@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { HashLink } from "@/components/client/hash-link";
+
 import { lgbutton } from "@/app/css-classes";
 
 export function Hero() {
@@ -25,9 +25,9 @@ export function Hero() {
           </p>
 
           <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-3 ">
-            <HashLink
-              hash="#calculator"
-              className={`group inline-flex items-center gap-y-3 gap-x-4 rounded-full ${lgbutton}  text-cream-50 transition hover:bg-clay-600  dark:text-ink-950 dark:hover:bg-clay-400 `}
+            <Link
+              href="/search"
+              className={`group inline-flex items-center gap-y-3 gap-x-4 rounded-full ${lgbutton}  text-cream-50 transition hover:bg-clay-600  dark:text-ink-100 dark:hover:bg-clay-400 `}
             >
               Search for a site
               <span className="grid h-6 w-6 place-items-center rounded-full bg-cream-50/15 transition group-hover:translate-x-0.5 dark:bg-ink-950/20">
@@ -43,16 +43,16 @@ export function Hero() {
                   <path d="M5 12h14M13 5l7 7-7 7" />
                 </svg>
               </span>
-            </HashLink>
-            <HashLink
-              hash="#how-it-works"
+            </Link>
+            <Link
+              href="#how-it-works"
               className="link-underline inline-flex items-center gap-2 py-3 text-sm font-medium text-ink-900 dark:text-cream-100"
             >
               How it works
               <span className="font-mono text-[11px] text-clay-600 dark:text-clay-300">
                 →
               </span>
-            </HashLink>
+            </Link>
           </div>
         </div>
 
