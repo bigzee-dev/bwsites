@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 import { getAdminSession } from "@/lib/admin/auth";
 import { deleteImageFromR2, uploadImageToR2 } from "@/lib/admin/r2";
@@ -28,6 +28,8 @@ function revalidateSitePaths() {
   revalidatePath("/admin");
   revalidatePath("/admin/sites");
   revalidatePath("/admin/categories");
+  revalidateTag("sites");
+  revalidateTag("collections");
 }
 
 export async function createSite(formData: FormData): Promise<ActionResult> {
