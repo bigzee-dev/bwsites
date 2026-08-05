@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ExternalLink, ArrowBigDown } from "lucide-react";
+import { FaWhatsapp } from "react-icons/fa";
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -35,6 +36,17 @@ export function SiteCard({ site }: { site: SiteWithCategories }) {
                 className="hover:text-foreground"
               >
                 <ArrowBigDown className="size-4" />
+              </a>
+            )}
+            {site.whatsapp && (
+              <a
+                href={`https://wa.me/${site.whatsapp.replace(/[^0-9]/g, "")}`}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={`Message ${site.name} on WhatsApp`}
+                className="hover:text-foreground"
+              >
+                <FaWhatsapp className="size-4" />
               </a>
             )}
             <a

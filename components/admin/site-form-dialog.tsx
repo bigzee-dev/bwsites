@@ -60,6 +60,8 @@ function getDefaultValues(props: SiteFormDialogProps): SiteInput {
       slug: props.site.slug ?? "",
       description: props.site.description,
       facebookUrl: props.site.facebookUrl ?? "",
+      whatsapp: props.site.whatsapp ?? "",
+      rank: props.site.rank,
       tags: props.site.tags,
       categoryIds: props.site.categories.map((category) => category.id),
     };
@@ -70,6 +72,8 @@ function getDefaultValues(props: SiteFormDialogProps): SiteInput {
     slug: "",
     description: "",
     facebookUrl: "",
+    whatsapp: "",
+    rank: 0,
     tags: [],
     categoryIds: [],
   };
@@ -110,6 +114,8 @@ export function SiteFormDialog(props: SiteFormDialogProps) {
       formData.set("slug", values.slug ?? "");
       formData.set("description", values.description);
       formData.set("facebookUrl", values.facebookUrl ?? "");
+      formData.set("whatsapp", values.whatsapp ?? "");
+      formData.set("rank", String(values.rank));
       values.tags.forEach((tag) => formData.append("tags", tag));
       values.categoryIds.forEach((id) => formData.append("categoryIds", id));
       if (imageFile) formData.set("image", imageFile);
@@ -263,6 +269,45 @@ export function SiteFormDialog(props: SiteFormDialogProps) {
                   <FormLabel>Facebook URL (optional)</FormLabel>
                   <FormControl>
                     <Input placeholder="https://facebook.com/..." {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="whatsapp"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>WhatsApp number (optional)</FormLabel>
+                  <FormControl>
+                    <Input placeholder="+267 71 234 567" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="rank"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Rank (0-100)</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      min={0}
+                      max={100}
+                      {...field}
+                      value={Number.isNaN(field.value) ? "" : field.value}
+                      onChange={(e) =>
+                        field.onChange(
+                          e.target.value === "" ? 0 : e.target.valueAsNumber,
+                        )
+                      }
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

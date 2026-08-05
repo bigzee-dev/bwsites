@@ -16,6 +16,8 @@ function parseSiteFormData(formData: FormData) {
     slug: String(formData.get("slug") ?? ""),
     description: String(formData.get("description") ?? ""),
     facebookUrl: String(formData.get("facebookUrl") ?? ""),
+    whatsapp: String(formData.get("whatsapp") ?? ""),
+    rank: Number(formData.get("rank") ?? 0),
     tags: formData.getAll("tags").map(String),
     categoryIds: formData.getAll("categoryIds").map(String),
   });
@@ -48,7 +50,8 @@ export async function createSite(formData: FormData): Promise<ActionResult> {
     return { success: false, error: "Failed to upload image. Please try again." };
   }
 
-  const { name, url, slug, description, facebookUrl, tags, categoryIds } = parsed.data;
+  const { name, url, slug, description, facebookUrl, whatsapp, rank, tags, categoryIds } =
+    parsed.data;
 
   try {
     await prisma.site.create({
@@ -59,6 +62,8 @@ export async function createSite(formData: FormData): Promise<ActionResult> {
         description,
         image: imageUrl,
         facebookUrl: facebookUrl || null,
+        whatsapp: whatsapp || null,
+        rank,
         tags,
         categories: { connect: categoryIds.map((id) => ({ id })) },
       },
@@ -91,7 +96,8 @@ export async function updateSite(id: string, formData: FormData): Promise<Action
     }
   }
 
-  const { name, url, slug, description, facebookUrl, tags, categoryIds } = parsed.data;
+  const { name, url, slug, description, facebookUrl, whatsapp, rank, tags, categoryIds } =
+    parsed.data;
 
   let previousImage: string | null = null;
   if (imageUrl) {
@@ -108,6 +114,8 @@ export async function updateSite(id: string, formData: FormData): Promise<Action
         slug: slug || null,
         description,
         facebookUrl: facebookUrl || null,
+        whatsapp: whatsapp || null,
+        rank,
         tags,
         ...(imageUrl ? { image: imageUrl } : {}),
         categories: { set: categoryIds.map((categoryId) => ({ id: categoryId })) },

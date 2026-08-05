@@ -26,7 +26,7 @@ export const searchSites = cache(async function searchSites(
   const sites = await prisma.site.findMany({
     where: categoryId ? { categories: { some: { id: categoryId } } } : undefined,
     include: { categories: true },
-    orderBy: { name: "asc" },
+    orderBy: [{ rank: "desc" }, { name: "asc" }],
   });
 
   const trimmed = query.trim().toLowerCase();

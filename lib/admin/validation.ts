@@ -21,6 +21,12 @@ export const siteSchema = z.object({
     .url("Enter a valid Facebook URL")
     .optional()
     .or(z.literal("")),
+  whatsapp: z.string().trim().optional().or(z.literal("")),
+  rank: z
+    .number()
+    .int()
+    .min(0, "Rank must be at least 0")
+    .max(100, "Rank must be at most 100"),
   tags: z.array(z.string().trim().min(1)),
   categoryIds: z.array(z.string().min(1)).min(1, "Select at least one category"),
 });

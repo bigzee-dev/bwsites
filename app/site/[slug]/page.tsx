@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ExternalLink, Link2 } from "lucide-react";
+import { FaWhatsapp } from "react-icons/fa";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Navbar } from "@/components/client/navbar";
@@ -131,6 +132,21 @@ export default async function SitePage({ params }: SitePageProps) {
                   >
                     <Link2 className="size-4" />
                     Facebook page
+                  </a>
+                )}
+
+                {site.whatsapp && (
+                  <a
+                    href={`https://wa.me/${site.whatsapp.replace(/[^0-9]/g, "")}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={cn(
+                      buttonVariants({ variant: "outline" }),
+                      "w-full",
+                    )}
+                  >
+                    <FaWhatsapp className="size-4" />
+                    WhatsApp
                   </a>
                 )}
               </div>
