@@ -60,7 +60,7 @@ function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = usePathname();
 
   return (
-    <nav className="flex flex-1 flex-col gap-0.5 p-3 pt-7">
+    <nav className="sticky flex flex-1 flex-col gap-0.5 p-3 pt-7">
       {NAV_ITEMS.map((item) => {
         const active = pathname === item.href;
         const Icon = item.icon;
@@ -110,7 +110,7 @@ function SidebarUserFooter({ user }: { user: SidebarUser }) {
 
 export function AdminSidebar({ user }: { user: SidebarUser }) {
   return (
-    <aside className="hidden w-64 shrink-0 flex-col border-r border-sidebar-border bg-sidebar lg:flex">
+    <aside className="sticky top-0 hidden h-svh w-64 shrink-0 flex-col overflow-y-auto border-r border-sidebar-border bg-sidebar lg:flex">
       <SidebarBrand />
       <SidebarNav />
       <SidebarUserFooter user={user} />

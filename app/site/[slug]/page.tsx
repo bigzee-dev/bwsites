@@ -90,16 +90,6 @@ export default async function SitePage({ params }: SitePageProps) {
                     {site.description}
                   </ReactMarkdown>
                 </div>
-
-                {site.tags.length > 0 && (
-                  <div className="flex flex-wrap gap-1.5">
-                    {site.tags.map((tag) => (
-                      <Badge key={tag} variant="outline">
-                        {tag}
-                      </Badge>
-                    ))}
-                  </div>
-                )}
               </div>
 
               <div className="flex h-fit flex-col gap-3 rounded-xl bg-card p-5 ring-1 ring-foreground/10 lg:col-span-1">

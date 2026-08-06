@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ExternalLink, ArrowBigDown } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
-
+import ReactMarkdown from "react-markdown";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { SiteWithCategories } from "@/lib/client/sites";
@@ -62,9 +62,9 @@ export function SiteCard({ site }: { site: SiteWithCategories }) {
         </CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-3">
-        <p className="line-clamp-2 text-sm text-ink-700 dark:text-ink-100 text-pretty">
-          {site.description}
-        </p>
+        <div className="line-clamp-2 text-sm text-ink-700 dark:text-ink-100 text-pretty">
+          <ReactMarkdown>{site.description}</ReactMarkdown>
+        </div>
         <Link
           href={`/site/${site.slug}`}
           className="truncate font-heading font-medium text-blue-500 hover:underline"

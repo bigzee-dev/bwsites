@@ -19,10 +19,11 @@ export function AdminHeader({
   categories: CategoryWithCount[];
 }) {
   const pathname = usePathname();
-  const title = NAV_ITEMS.find((item) => item.href === pathname)?.label ?? "Admin";
+  const title =
+    NAV_ITEMS.find((item) => item.href === pathname)?.label ?? "Admin";
 
   return (
-    <header className="flex items-center gap-3 border-b border-border px-4 py-3 sm:px-6">
+    <header className="sticky flex items-center gap-3 border-b border-border px-4 py-3 sm:px-6">
       <AdminMobileNav user={user} />
       <h1 className="flex-1 truncate text-lg font-semibold text-foreground font-[family-name:var(--font-admin-display)]">
         {title}
