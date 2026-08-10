@@ -4,10 +4,10 @@ import { lgbutton } from "@/app/css-classes";
 import { getSitesCount } from "@/lib/admin/sites";
 import { getCategories } from "@/lib/client/categories";
 
-const sitesCount = await getSitesCount();
-const categories = await getCategories();
+export async function Hero() {
+  const sitesCount = await getSitesCount();
+  const categories = await getCategories();
 
-export function Hero() {
   return (
     <section className="relative isolate overflow-hidden">
       {/* Backdrop layers */}
