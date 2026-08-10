@@ -33,8 +33,8 @@ export function Navbar() {
     <header
       className={`top-0 z-50 transition-all duration-500 bg-brand-blue-900  sticky`}
     >
-      <div className="relative mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 sm:px-2 lg:px-2 py-5">
-        <Link href="/" aria-label="MicroLending home" className="shrink-0">
+      <div className="relative mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 sm:px-2 lg:px-2 py-2">
+        <Link href="/" aria-label="Online Spot Logo" className="ring-none">
           <Logo />
         </Link>
         <div className="absolute left-1/2 hidden w-full max-w-sm -translate-x-1/2 px-4 md:block">

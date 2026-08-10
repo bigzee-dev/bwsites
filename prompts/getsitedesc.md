@@ -17,4 +17,4 @@ Please provide:
 - Do not include the website URL in the description
 - Do not include bullet points, headings, or extra commentary
 
-The final output should only be the two paragraphs ready to paste into my directory.
+The final output should only be the two paragraphs ready to paste into my directory. The file format should be .md so use \* and \*\* for bold and italics.

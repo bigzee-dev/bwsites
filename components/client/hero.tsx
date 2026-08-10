@@ -1,7 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
-
 import { lgbutton } from "@/app/css-classes";
+import { getSitesCount } from "@/lib/admin/sites";
+import { getCategories } from "@/lib/client/categories";
+
+const sitesCount = await getSitesCount();
+const categories = await getCategories();
 
 export function Hero() {
   return (
@@ -15,7 +19,7 @@ export function Hero() {
       <div className="mx-auto grid max-w-7xl gap-12 px-4 pb-16 pt-10 sm:px-2 lg:grid-cols-12 lg:gap-10 lg:px-2 lg:pb-8 lg:pt-16">
         {/* Editorial copy column */}
         <div className="lg:col-span-7">
-          <h1 className="font-display text-[44px] font-semibold leading-[0.95] tracking-editorial text-ink-900 text-balance sm:text-[54px] lg:text-[66px] xl:text-[78px] dark:text-cream-100">
+          <h1 className="font-display text-[44px] font-semibold leading-[0.95] tracking-editorial text-ink-900 text-balance sm:text-[54px] lg:text-[66px] xl:text-[78px] dark:text-ink-100">
             The Trusted Guide to Botswana's Online World
           </h1>
 
@@ -54,15 +58,17 @@ export function Hero() {
               </span>
             </Link>
           </div>
+
+          <div className="mt-6 flex items-center gap-4 text-sm text-ink-700 dark:text-ink-300">
+            <span className="font-semibold italic font-sans">
+              {sitesCount} sites listed
+            </span>
+          </div>
         </div>
 
         {/* Visual column — offset image with floating ticket */}
         <div className="relative lg:col-span-5">
           <div className="relative">
-            {/* Decorative deckle */}
-            {/* <div className="absolute left-3 top-3 hidden h-24 w-24 border-l-2 border-t-2 border-clay-500 lg:block" />
-            <div className="absolute bottom-3 right-3 hidden h-24 w-24 border-b-2 border-r-2 border-forest-700 lg:block dark:border-forest-300" /> */}
-
             <div className="relative aspect-[5/4] overflow-hidden ">
               <Image
                 src="/our-process.png"
@@ -72,50 +78,7 @@ export function Hero() {
                 priority
                 sizes="(min-width: 1024px) 40vw, 90vw"
               />
-              {/* Duotone wash for editorial feel */}
-              {/* <div className="absolute inset-0 mix-blend-multiply bg-gradient-to-br from-clay-600/30 via-transparent to-forest-800/30 dark:from-clay-400/20 dark:to-forest-200/10" />
-              <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-ink-950/70 via-ink-950/20 to-transparent" /> */}
             </div>
-
-            {/* Receipt-style ticket */}
-            {/* <div
-              className="absolute -right-2 top-6 hidden w-56 -rotate-2 border border-ink-200 bg-cream-50 p-4 shadow-editorial dark:border-ink-700 dark:bg-ink-900 sm:block"
-              style={{
-                clipPath:
-                  "polygon(0 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%)",
-              }}
-            >
-              <div className="flex items-baseline justify-between">
-                <span className="font-mono text-[10px] uppercase tracking-widest text-ink-500 dark:text-ink-300">
-                  Loan receipt
-                </span>
-                <span className="font-mono text-[10px] text-clay-600 dark:text-clay-300">
-                  No. 04821
-                </span>
-              </div>
-              <div className="mt-3 border-t border-dashed border-ink-200 pt-3 dark:border-ink-700">
-                <div className="flex items-baseline justify-between text-xs text-ink-600 dark:text-ink-300">
-                  <span>Principal</span>
-                  <span className="font-mono text-ink-900 dark:text-cream-100">
-                    P3,500.00
-                  </span>
-                </div>
-                <div className="mt-1 flex items-baseline justify-between text-xs text-ink-600 dark:text-ink-300">
-                  <span>Term</span>
-                  <span className="font-mono text-ink-900 dark:text-cream-100">
-                    14 days
-                  </span>
-                </div>
-                <div className="mt-3 flex items-baseline justify-between border-t border-dashed border-ink-200 pt-2 dark:border-ink-700">
-                  <span className="font-display text-sm italic text-ink-900 dark:text-cream-100">
-                    approved
-                  </span>
-                  <span className="font-mono text-[10px] text-forest-700 dark:text-forest-300">
-                    ✓ 09:47 CAT
-                  </span>
-                </div>
-              </div>
-            </div> */}
           </div>
 
           {/* Hand-set quote stack */}
@@ -150,23 +113,14 @@ export function Hero() {
             </span>
             <div className="mask-fade-x overflow-hidden">
               <div className="flex w-max animate-marquee items-center gap-12 whitespace-nowrap">
-                {[...Array(2)].flatMap((_, dup) =>
-                  [
-                    "Quick Cash Loans",
-                    "Personal Loans",
-                    "Pay Day Loans",
-                    "Business Loans",
-                    "Purchase Orders Financing",
-                    "Micro Loans",
-                  ].map((name) => (
-                    <span
-                      key={`${dup}-${name}`}
-                      className="font-display text-xl font-medium tracking-tight text-ink-500 dark:text-ink-300"
-                    >
-                      {name}
-                    </span>
-                  )),
-                )}
+                {[...categories, ...categories].map((category, index) => (
+                  <span
+                    key={index}
+                    className="font-display text-xl font-medium tracking-tight text-ink-500 dark:text-ink-300"
+                  >
+                    {category.name}
+                  </span>
+                ))}
               </div>
             </div>
           </div>

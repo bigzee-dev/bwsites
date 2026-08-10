@@ -7,7 +7,7 @@
  * Values marked PLACEHOLDER should be replaced once the client confirms them.
  */
 
-export const COMPANY_NAME = "E&E Driver Training Consultancy";
+export const COMPANY_NAME = "Online Spot";
 
 /** Short form used in tight spaces (nav, footer marks). */
 export const COMPANY_SHORT_NAME = "E&E";

@@ -46,7 +46,7 @@
   --color-forest-900: #152a20;
   --color-forest-950: #0a1810;
 
-  --animate-marquee: marquee 26s linear infinite;
+  --animate-marquee: marquee 40s linear infinite;
 
   @keyframes marquee {
     0% {
