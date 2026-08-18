@@ -46,7 +46,7 @@ export default async function SitePage({ params }: SitePageProps) {
               <img
                 src={site.image}
                 alt={site.name}
-                className="aspect-[16/7] w-full"
+                className="aspect-[15/7] w-full"
               />
             </div>
 
