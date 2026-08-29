@@ -1,12 +1,22 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ExternalLink, Link2 } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 import { Badge } from "@/components/ui/badge";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 import { buttonVariants } from "@/components/ui/button";
 import { Navbar } from "@/components/client/navbar";
 import { cn } from "@/lib/utils";
 import { getSiteBySlug } from "@/lib/client/sites";
+import { categoryHref } from "@/lib/slug";
 import BackButton from "@/components/client/backbutton";
 import ReactMarkdown from "react-markdown";
 
@@ -34,6 +44,8 @@ export default async function SitePage({ params }: SitePageProps) {
 
   if (!site) notFound();
 
+  const primaryCategory = site.categories[0];
+
   return (
     <div className="flex flex-1 flex-col ">
       <main className="w-full flex-1">
@@ -42,6 +54,7 @@ export default async function SitePage({ params }: SitePageProps) {
         <div className="bg-cream-50 dark:bg-ink-950">
           <div className="mx-auto max-w-5xl px-4 py-8 sm:px-2">
             <BackButton />
+
             <div className="mt-6 overflow-hidden rounded-2xl ring-1 ring-foreground/10">
               <img
                 src={site.image}
@@ -53,6 +66,36 @@ export default async function SitePage({ params }: SitePageProps) {
             <div className="mt-8 grid gap-8 lg:grid-cols-3">
               <div className="flex flex-col gap-6 lg:col-span-2">
                 <div>
+                  <Breadcrumb className="mb-3">
+                    <BreadcrumbList className="lowercase">
+                      <BreadcrumbItem>
+                        <BreadcrumbLink render={<Link href="/search" />}>
+                          all
+                        </BreadcrumbLink>
+                      </BreadcrumbItem>
+
+                      {primaryCategory && (
+                        <>
+                          <BreadcrumbSeparator />
+                          <BreadcrumbItem>
+                            <BreadcrumbLink
+                              render={
+                                <Link href={categoryHref(primaryCategory.name)} />
+                              }
+                            >
+                              {primaryCategory.name}
+                            </BreadcrumbLink>
+                          </BreadcrumbItem>
+                        </>
+                      )}
+
+                      <BreadcrumbSeparator />
+                      <BreadcrumbItem>
+                        <BreadcrumbPage>{site.name}</BreadcrumbPage>
+                      </BreadcrumbItem>
+                    </BreadcrumbList>
+                  </Breadcrumb>
+
                   <h1 className="font-heading text-3xl font-bold text-brand-blue-900 sm:text-4xl dark:text-brand-blue-300">
                     {site.name}
                   </h1>
