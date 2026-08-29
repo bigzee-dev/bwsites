@@ -61,11 +61,11 @@ function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = usePathname();
 
   return (
-    <nav className="sticky flex flex-1 flex-col gap-0.5 p-3 pt-7">
+    <nav className="sticky flex flex-1 flex-col gap-0.5 p-3 pt-3">
       <Link
         href="/"
         onClick={onNavigate}
-        className="mb-1 flex items-center gap-2.5 rounded-md px-3 py-2 text-sm font-medium text-sidebar-foreground/70 transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+        className="mb-4 flex items-center gap-2.5 rounded-md px-3 py-2 text-sm font-medium text-sidebar-foreground/70 transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
       >
         <ArrowLeft className="size-4" strokeWidth={1.75} />
         Frontend
