@@ -30,7 +30,9 @@ export const getSiteBySlug = unstable_cache(
 export const searchSites = unstable_cache(
   async function searchSites(query: string = "", categoryId?: string) {
     const sites = await prisma.site.findMany({
-      where: categoryId ? { categories: { some: { id: categoryId } } } : undefined,
+      where: categoryId
+        ? { categories: { some: { id: categoryId } } }
+        : undefined,
       include: { categories: true },
       orderBy: [{ rank: "desc" }, { name: "asc" }],
     });
@@ -40,8 +42,13 @@ export const searchSites = unstable_cache(
 
     return sites.filter((site) => {
       if (site.name.toLowerCase().includes(trimmed)) return true;
-      if (site.tags.some((tag) => tag.toLowerCase().includes(trimmed))) return true;
-      if (site.categories.some((category) => category.name.toLowerCase().includes(trimmed))) {
+      if (site.tags.some((tag) => tag.toLowerCase().includes(trimmed)))
+        return true;
+      if (
+        site.categories.some((category) =>
+          category.name.toLowerCase().includes(trimmed),
+        )
+      ) {
         return true;
       }
       return false;
