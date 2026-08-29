@@ -37,6 +37,25 @@ export async function uploadImageToR2(file: File): Promise<string> {
   return `${process.env.R2_PUBLIC_URL}/${key}`;
 }
 
+export async function uploadBufferToR2(
+  buffer: Buffer,
+  filename: string,
+  contentType: string,
+): Promise<string> {
+  const key = `sites/${crypto.randomUUID()}-${sanitizeFilename(filename)}`;
+
+  await getR2Client().send(
+    new PutObjectCommand({
+      Bucket: process.env.R2_BUCKET_NAME,
+      Key: key,
+      Body: buffer,
+      ContentType: contentType,
+    }),
+  );
+
+  return `${process.env.R2_PUBLIC_URL}/${key}`;
+}
+
 export async function deleteImageFromR2(imageUrl: string): Promise<void> {
   const key = imageUrl.replace(`${process.env.R2_PUBLIC_URL}/`, "");
 

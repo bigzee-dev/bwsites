@@ -33,6 +33,23 @@ export const siteSchema = z.object({
 
 export type SiteInput = z.infer<typeof siteSchema>;
 
+export const autoSiteSchema = z.object({
+  name: z.string().trim().min(1, "Name is required").max(120, "Name is too long"),
+  url: z.string().trim().min(1, "URL is required").url("Enter a valid URL"),
+  imageName: z
+    .string()
+    .trim()
+    .min(1, "Image name is required")
+    .max(80, "Image name is too long")
+    .regex(
+      /^[a-zA-Z0-9._-]+$/,
+      "Use letters, numbers, dots, hyphens, and underscores only",
+    ),
+  categoryId: z.string().min(1, "Select a category"),
+});
+
+export type AutoSiteInput = z.infer<typeof autoSiteSchema>;
+
 export const categorySchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(60, "Name is too long"),
 });

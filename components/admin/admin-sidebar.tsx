@@ -11,6 +11,7 @@ import {
   Menu,
   Search,
   Tags,
+  Wand2,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -27,6 +28,7 @@ import { AdminLogoutButton } from "@/components/admin/admin-logout-button";
 export const NAV_ITEMS = [
   { href: "/admin", label: "Home", icon: LayoutDashboard },
   { href: "/admin/sites", label: "Sites", icon: Globe },
+  { href: "/admin/auto", label: "Auto", icon: Wand2 },
   { href: "/admin/categories", label: "Categories", icon: Tags },
   { href: "/admin/collections", label: "Collections", icon: Layers },
   { href: "/admin/searches", label: "Searches", icon: Search },
