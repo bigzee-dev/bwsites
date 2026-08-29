@@ -25,11 +25,13 @@ export async function Hero() {
 
           <p className="mt-7 max-w-xl text-base leading-[1.7] text-ink-700 text-pretty dark:text-ink-200">
             Discover reliable websites, essential services, and the best online
-            resources Botswana has to offer.{" "}
-            <span className="mx-1 inline-flex min-w-6 items-center justify-center rounded-full bg-brand-blue-900 px-2 py-0.5 align-[0.05em] text-sm font-bold tabular-nums text-white dark:bg-brand-yellow-light dark:text-brand-blue-900">
+            resources Botswana has to offer -
+            <span className="mx-1 inline-flex min-w-6 items-center justify-center rounded-full bg-brand-blue-900 px-2 py-0.5 align-[0.05em] text-sm font-bold tabular-nums text-white dark:bg-brand-yellow-dark dark:text-ink-700">
               {sitesCount}
             </span>
-            <span className="font-semibold italic font-sans">sites listed</span>
+            <span className="ml-0.5 text-ink-300 text-sm italic font-sans">
+              sites listed
+            </span>
           </p>
 
           <div className="border-t border-b border-accent-foreground/20 mt-6 py-5 flex flex-wrap items-center gap-x-8 gap-y-3 ">

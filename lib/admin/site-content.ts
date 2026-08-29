@@ -30,8 +30,16 @@ const EFFORT = "low" as const;
 
 export class SiteContentError extends Error {}
 
+/**
+ * The two paragraphs are separate fields rather than one `description` string.
+ * Asked for one string, the model reliably flattened both paragraphs into a
+ * single block — a newline inside a JSON string is easy for it to drop. Two
+ * required fields make the split structural, so it cannot come back as one
+ * paragraph; they are joined with a blank line for storage.
+ */
 const siteContentSchema = z.object({
-  description: z.string(),
+  first_paragraph: z.string(),
+  second_paragraph: z.string(),
   tags: z.array(z.string()),
 });
 
@@ -49,9 +57,9 @@ I am building a Botswana website directory and need a professional directory des
 
 Please provide a description:
 
-- The total length of the description should not be more than 1000 characters
+- The total length of the description should not be more than 1000 characters across both paragraphs combined
 
-- Two small paragraphs
+- Two small paragraphs, returned as two separate fields
 
 - Exactly 3 sentences per paragraph
 
@@ -71,14 +79,15 @@ Please provide a description:
 
 - Do not include bullet points, headings, or extra commentary
 
-The final output should only be the two paragraphs ready to paste into my directory.
+The final output should only be the two paragraphs ready to paste into my directory. Put the first paragraph in "first_paragraph" and the second paragraph in "second_paragraph". Never put both paragraphs in one field.
 
 Please provide 10 tags that describe the website:
 
 Your output should be json in this form:
 
 {
-"description": "string",
+"first_paragraph": "string",
+"second_paragraph": "string",
 "tags" : [an array of strings]
 }`;
 }
@@ -107,31 +116,42 @@ function trimToLimit(description: string) {
  * costs a fraction of the original call (no tools, no page content) and keeps the
  * two-paragraph, three-sentence shape that a hard trim would break.
  */
-async function shortenDescription(client: Anthropic, description: string) {
-  const response = await client.messages.create({
+async function shortenDescription(
+  client: Anthropic,
+  paragraphs: [string, string],
+): Promise<[string, string]> {
+  // Same two-field shape as the main call, for the same reason: a single string
+  // comes back as one flattened paragraph.
+  const response = await client.messages.parse({
     model: MODEL,
     max_tokens: 2000,
+    output_config: {
+      format: zodOutputFormat(
+        z.object({ first_paragraph: z.string(), second_paragraph: z.string() }),
+      ),
+    },
     messages: [
       {
         role: "user",
-        content: `Shorten the following website directory description so it is under ${MAX_DESCRIPTION_LENGTH} characters in total.
+        content: `Shorten the following website directory description so the two paragraphs together are under ${MAX_DESCRIPTION_LENGTH} characters.
 
-Keep exactly two paragraphs with exactly three sentences each. Keep the same facts and the same professional tone. Do not add commentary, headings, or quotation marks.
+Keep exactly two paragraphs of exactly three sentences each. Keep the same facts and the same professional tone. Do not add commentary, headings, or quotation marks.
 
-Reply with the shortened description only.
+First paragraph:
+${paragraphs[0]}
 
-${description}`,
+Second paragraph:
+${paragraphs[1]}`,
       },
     ],
   });
 
-  const text = response.content
-    .filter((block) => block.type === "text")
-    .map((block) => block.text)
-    .join("")
-    .trim();
+  const parsed = response.parsed_output;
+  if (!parsed?.first_paragraph?.trim() || !parsed?.second_paragraph?.trim()) {
+    return paragraphs;
+  }
 
-  return text || description;
+  return [parsed.first_paragraph.trim(), parsed.second_paragraph.trim()];
 }
 
 /** Asks Claude to read the site and write a directory description plus tags. */
@@ -199,14 +219,22 @@ export async function generateSiteContent(url: string): Promise<GeneratedSiteCon
     );
   }
 
-  let description = parsed.description.trim();
-  if (description.length > MAX_DESCRIPTION_LENGTH) {
+  let paragraphs: [string, string] = [
+    parsed.first_paragraph.trim(),
+    parsed.second_paragraph.trim(),
+  ];
+
+  const joined = () => paragraphs.filter(Boolean).join("\n\n");
+
+  if (joined().length > MAX_DESCRIPTION_LENGTH) {
     try {
-      description = await shortenDescription(client, description);
+      paragraphs = await shortenDescription(client, paragraphs);
     } catch {
       // Fall through to the hard trim below.
     }
   }
+
+  let description = joined();
   // Belt and braces: the rewrite can still come back long.
   description = trimToLimit(description);
 
