@@ -19,11 +19,11 @@ export async function Hero() {
       <div className="mx-auto grid max-w-7xl gap-12 px-4 pb-16 pt-10 sm:px-2 lg:grid-cols-12 lg:gap-10 lg:px-2 lg:pb-8 lg:pt-16">
         {/* Editorial copy column */}
         <div className="lg:col-span-7">
-          <h1 className="font-display text-[44px] font-semibold leading-[0.95] tracking-editorial text-ink-900 text-balance sm:text-[54px] lg:text-[66px] xl:text-[78px] dark:text-ink-100">
+          <h1 className="font-display text-[44px] font-semibold leading-[0.95] tracking-editorial text-ink-900 text-balance sm:text-[54px] lg:text-[64px] xl:text-[70px] dark:text-ink-100">
             The Trusted Guide to Botswana's Online World
           </h1>
 
-          <p className="mt-7 max-w-xl text-lg leading-[1.55] text-ink-700 text-pretty dark:text-ink-200">
+          <p className="mt-7 max-w-xl text-base leading-[1.55] text-ink-700 text-pretty dark:text-ink-200">
             Discover reliable websites, essential services, and the best online
             resources Botswana has to offer.
           </p>
@@ -59,10 +59,11 @@ export async function Hero() {
             </Link>
           </div>
 
-          <div className="mt-6 flex items-center gap-4 text-sm text-ink-700 dark:text-ink-300">
-            <span className="font-semibold italic font-sans">
-              {sitesCount} sites listed
+          <div className="mt-6 flex items-center gap-2 text-sm text-ink-700 dark:text-ink-300">
+            <span className="inline-flex min-w-7 items-center justify-center rounded-full bg-brand-blue-900 px-2.5 py-1 text-xs font-bold tabular-nums text-white dark:bg-brand-yellow-light dark:text-brand-blue-900">
+              {sitesCount}
             </span>
+            <span className="font-semibold italic font-sans">sites listed</span>
           </div>
         </div>
 
