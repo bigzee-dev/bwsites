@@ -66,7 +66,7 @@ export default async function SitePage({ params }: SitePageProps) {
             <div className="mt-8 grid gap-8 lg:grid-cols-3">
               <div className="flex flex-col gap-6 lg:col-span-2">
                 <div>
-                  <Breadcrumb className="mb-3">
+                  <Breadcrumb className="mt-0.5 mb-4">
                     <BreadcrumbList className="lowercase">
                       <BreadcrumbItem>
                         <BreadcrumbLink render={<Link href="/search" />}>
@@ -80,7 +80,9 @@ export default async function SitePage({ params }: SitePageProps) {
                           <BreadcrumbItem>
                             <BreadcrumbLink
                               render={
-                                <Link href={categoryHref(primaryCategory.name)} />
+                                <Link
+                                  href={categoryHref(primaryCategory.name)}
+                                />
                               }
                             >
                               {primaryCategory.name}
@@ -104,14 +106,14 @@ export default async function SitePage({ params }: SitePageProps) {
                       href={site.url}
                       target="_blank"
                       rel="noreferrer"
-                      className="font-mono truncate text-sm dark:text-ink-300 text-ink-600 hover:text-foreground hover:underline"
+                      className="font-mono truncate text-xs dark:text-ink-300 text-ink-600 hover:text-foreground hover:underline"
                     >
                       {site.url}
                     </a>
                   </div>
 
                   {site.categories.length > 0 && (
-                    <div className="mt-4 flex flex-wrap gap-1.5">
+                    <div className="mt-5 flex flex-wrap gap-1.5">
                       {site.categories.map((category) => (
                         <Badge
                           key={category.id}

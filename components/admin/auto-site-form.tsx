@@ -59,7 +59,12 @@ export function AutoSiteForm({ categories }: { categories: CategoryWithCount[] }
         return;
       }
 
-      toast.success("Site created");
+      if (result.warning) {
+        toast.warning("Site created", { description: result.warning });
+      } else {
+        toast.success("Site created");
+      }
+
       form.reset(EMPTY_VALUES);
       router.refresh();
     });

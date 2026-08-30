@@ -10,7 +10,9 @@ import { autoSiteSchema } from "@/lib/admin/validation";
 import { prisma } from "@/lib/prisma";
 import { slugify } from "@/lib/slug";
 
-type ActionResult = { success: true } | { success: false; error: string };
+type ActionResult =
+  | { success: true; warning?: string }
+  | { success: false; error: string };
 
 /** Turns whatever the admin typed into a `<name>.webp` filename. */
 function toWebpFilename(imageName: string) {
@@ -64,8 +66,10 @@ export async function autoCreateSite(formData: FormData): Promise<ActionResult> 
   }
 
   let imageUrl: string;
+  let isBlankScreenshot = false;
   try {
-    const webp = await toWebp(screenshot);
+    const { webp, isBlank } = await toWebp(screenshot);
+    isBlankScreenshot = isBlank;
     imageUrl = await uploadBufferToR2(webp, toWebpFilename(imageName), "image/webp");
   } catch (error) {
     if (error instanceof ScreenshotError) {
@@ -102,5 +106,10 @@ export async function autoCreateSite(formData: FormData): Promise<ActionResult> 
   updateTag("sites");
   updateTag("collections");
 
-  return { success: true };
+  return {
+    success: true,
+    warning: isBlankScreenshot
+      ? "The screenshot came back blank — the site may be blocking automated capture. Replace the image from the Sites page."
+      : undefined,
+  };
 }

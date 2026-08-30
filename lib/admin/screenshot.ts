@@ -65,12 +65,16 @@ export async function captureScreenshot(url: string): Promise<Buffer> {
 
 /**
  * Some sites block headless browsers and hand back a blank page. Pixel variance near
- * zero means a flat image, which we would rather reject than publish as a site card.
+ * zero means a flat image. We still keep it — the site is created with the blank
+ * screenshot and the admin replaces the image by hand — but we flag it so the caller
+ * can say so rather than letting a white card slip by unnoticed.
  */
 const MIN_PIXEL_STDEV = 1;
 
+export type WebpResult = { webp: Buffer; isBlank: boolean };
+
 /** Scales a captured screenshot down to a web-friendly WebP. */
-export async function toWebp(screenshot: Buffer): Promise<Buffer> {
+export async function toWebp(screenshot: Buffer): Promise<WebpResult> {
   let webp: Buffer;
   try {
     webp = await sharp(screenshot)
@@ -81,13 +85,14 @@ export async function toWebp(screenshot: Buffer): Promise<Buffer> {
     throw new ScreenshotError("Could not convert the screenshot to WebP");
   }
 
-  const { channels } = await sharp(webp).stats();
-  const stdev = channels.reduce((sum, c) => sum + c.stdev, 0) / channels.length;
-  if (stdev < MIN_PIXEL_STDEV) {
-    throw new ScreenshotError(
-      "The screenshot came back blank — the site may be blocking automated capture. Add it manually from the Sites page.",
-    );
+  let isBlank = false;
+  try {
+    const { channels } = await sharp(webp).stats();
+    const stdev = channels.reduce((sum, c) => sum + c.stdev, 0) / channels.length;
+    isBlank = stdev < MIN_PIXEL_STDEV;
+  } catch {
+    // Stats are only used for the warning; a failure here should not block the site.
   }
 
-  return webp;
+  return { webp, isBlank };
 }
