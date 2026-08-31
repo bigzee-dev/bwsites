@@ -3,6 +3,7 @@
 import { revalidatePath, updateTag } from "next/cache";
 
 import { getAdminSession } from "@/lib/admin/auth";
+import { toWebpFilename } from "@/lib/admin/image";
 import { deleteImageFromR2, uploadBufferToR2 } from "@/lib/admin/r2";
 import { ScreenshotError, captureScreenshot, toWebp } from "@/lib/admin/screenshot";
 import { SiteContentError, generateSiteContent } from "@/lib/admin/site-content";
@@ -13,11 +14,6 @@ import { slugify } from "@/lib/slug";
 type ActionResult =
   | { success: true; warning?: string }
   | { success: false; error: string };
-
-/** Turns whatever the admin typed into a `<name>.webp` filename. */
-function toWebpFilename(imageName: string) {
-  return `${imageName.replace(/\.[a-zA-Z0-9]+$/, "")}.webp`;
-}
 
 async function uniqueSlug(name: string) {
   const base = slugify(name);

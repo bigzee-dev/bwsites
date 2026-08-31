@@ -21,22 +21,6 @@ function sanitizeFilename(filename: string) {
   return filename.replace(/[^a-zA-Z0-9._-]/g, "-").toLowerCase();
 }
 
-export async function uploadImageToR2(file: File): Promise<string> {
-  const buffer = Buffer.from(await file.arrayBuffer());
-  const key = `sites/${crypto.randomUUID()}-${sanitizeFilename(file.name)}`;
-
-  await getR2Client().send(
-    new PutObjectCommand({
-      Bucket: process.env.R2_BUCKET_NAME,
-      Key: key,
-      Body: buffer,
-      ContentType: file.type || "application/octet-stream",
-    }),
-  );
-
-  return `${process.env.R2_PUBLIC_URL}/${key}`;
-}
-
 export async function uploadBufferToR2(
   buffer: Buffer,
   filename: string,

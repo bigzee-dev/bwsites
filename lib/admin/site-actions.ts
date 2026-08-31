@@ -3,12 +3,25 @@
 import { revalidatePath, updateTag } from "next/cache";
 
 import { getAdminSession } from "@/lib/admin/auth";
-import { deleteImageFromR2, uploadImageToR2 } from "@/lib/admin/r2";
+import { ImageProcessingError, optimizeImageToWebp, toWebpFilename } from "@/lib/admin/image";
+import { deleteImageFromR2, uploadBufferToR2 } from "@/lib/admin/r2";
 import { siteSchema } from "@/lib/admin/validation";
 import { prisma } from "@/lib/prisma";
 import { slugify } from "@/lib/slug";
 
 type ActionResult = { success: true } | { success: false; error: string };
+
+/** Optimizes the upload to WebP and stores it under the site slug, returning the R2 URL. */
+async function storeOptimizedImage(file: File, slug: string): Promise<string> {
+  const { buffer, contentType } = await optimizeImageToWebp(file);
+  return uploadBufferToR2(buffer, toWebpFilename(slug), contentType);
+}
+
+function imageErrorMessage(error: unknown) {
+  return error instanceof ImageProcessingError
+    ? error.message
+    : "Failed to upload image. Please try again.";
+}
 
 function parseSiteFormData(formData: FormData) {
   return siteSchema.safeParse({
@@ -46,22 +59,23 @@ export async function createSite(formData: FormData): Promise<ActionResult> {
     return { success: false, error: "An image is required" };
   }
 
-  let imageUrl: string;
-  try {
-    imageUrl = await uploadImageToR2(imageFile);
-  } catch {
-    return { success: false, error: "Failed to upload image. Please try again." };
-  }
-
   const { name, url, slug, description, facebookUrl, whatsapp, rank, tags, categoryIds } =
     parsed.data;
+  const finalSlug = slug || slugify(name);
+
+  let imageUrl: string;
+  try {
+    imageUrl = await storeOptimizedImage(imageFile, finalSlug);
+  } catch (error) {
+    return { success: false, error: imageErrorMessage(error) };
+  }
 
   try {
     await prisma.site.create({
       data: {
         name,
         url,
-        slug: slug || slugify(name),
+        slug: finalSlug,
         description,
         image: imageUrl,
         facebookUrl: facebookUrl || null,
@@ -88,19 +102,20 @@ export async function updateSite(id: string, formData: FormData): Promise<Action
     return { success: false, error: parsed.error.issues[0]?.message ?? "Invalid input" };
   }
 
+  const { name, url, slug, description, facebookUrl, whatsapp, rank, tags, categoryIds } =
+    parsed.data;
+  const finalSlug = slug || slugify(name);
+
   const imageFile = formData.get("image");
   let imageUrl: string | undefined;
 
   if (imageFile instanceof File && imageFile.size > 0) {
     try {
-      imageUrl = await uploadImageToR2(imageFile);
-    } catch {
-      return { success: false, error: "Failed to upload image. Please try again." };
+      imageUrl = await storeOptimizedImage(imageFile, finalSlug);
+    } catch (error) {
+      return { success: false, error: imageErrorMessage(error) };
     }
   }
-
-  const { name, url, slug, description, facebookUrl, whatsapp, rank, tags, categoryIds } =
-    parsed.data;
 
   let previousImage: string | null = null;
   if (imageUrl) {
@@ -114,7 +129,7 @@ export async function updateSite(id: string, formData: FormData): Promise<Action
       data: {
         name,
         url,
-        slug: slug || slugify(name),
+        slug: finalSlug,
         description,
         facebookUrl: facebookUrl || null,
         whatsapp: whatsapp || null,
