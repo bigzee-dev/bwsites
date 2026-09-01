@@ -29,8 +29,8 @@ export async function SitesGrid({ collection }: { collection: string }) {
           />
           {data?.name ?? collection}
         </h1>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 py-8">
-          {sites.map((site) => (
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 py-8">
+          {sites.slice(0, 4).map((site) => (
             <SiteCard key={site.id} site={site} />
           ))}
         </div>

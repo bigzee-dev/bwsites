@@ -1,6 +1,7 @@
 import { Navbar } from "@/components/client/navbar";
 import { Hero } from "@/components/client/hero";
 import { SitesGrid } from "@/components/sites-grid";
+import { CategoryLinks } from "@/components/client/category-links";
 
 export default function Home() {
   return (
@@ -10,6 +11,8 @@ export default function Home() {
         <Hero />
 
         <SitesGrid collection="Top Sites" />
+
+        <CategoryLinks />
       </main>
     </div>
   );
