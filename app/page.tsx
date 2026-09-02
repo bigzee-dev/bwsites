@@ -13,9 +13,9 @@ export default function Home() {
         <Hero />
         <CollectionsContainer collections={[1, 2, 3]} />
         <CategoryLinks />
-        <CollectionsContainer collections={[1, 2, 3]} />
+        <CollectionsContainer collections={[4, 5, 6]} />
         <SearchBanner />
-        <CollectionsContainer collections={[1, 2, 3]} />
+        <CollectionsContainer collections={[7, 8, 9]} />
       </main>
     </div>
   );
