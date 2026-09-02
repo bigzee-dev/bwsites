@@ -1,4 +1,3 @@
-import Link from "next/link";
 import {
   AntennaIcon,
   ArrowUpRightIcon,
@@ -38,6 +37,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
+import { ScrollTopLink } from "@/components/client/scroll-top-link";
 import { getCategories } from "@/lib/client/categories";
 import { categoryHref } from "@/lib/slug";
 
@@ -128,7 +128,7 @@ export async function CategoryLinks() {
             </p>
           </div>
 
-          <Link
+          <ScrollTopLink
             href="/search"
             className="group inline-flex items-center gap-2 border-b border-ink-300 pb-1 font-mono text-[11px] uppercase tracking-[0.2em] text-ink-700 transition-colors hover:border-brand-yellow-light hover:text-brand-blue-900 dark:border-ink-700 dark:text-ink-200 dark:hover:text-brand-yellow-light"
           >
@@ -137,7 +137,7 @@ export async function CategoryLinks() {
               aria-hidden
               className="size-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
             />
-          </Link>
+          </ScrollTopLink>
         </div>
 
         {/* Rule-lined directory grid */}
@@ -160,7 +160,7 @@ export async function CategoryLinks() {
                   className="absolute inset-y-0 left-0 w-[3px] origin-top scale-y-0 bg-brand-yellow-light transition-transform duration-300 ease-out group-hover:scale-y-100 group-focus-within:scale-y-100"
                 />
 
-                <Link
+                <ScrollTopLink
                   href={categoryHref(category.name)}
                   className="flex h-full items-center gap-4 px-5 py-3.5 outline-none transition-colors hover:bg-cream-100 focus-visible:bg-cream-100 dark:hover:bg-ink-900/70 dark:focus-visible:bg-ink-900/70"
                 >
@@ -184,7 +184,7 @@ export async function CategoryLinks() {
                     aria-hidden
                     className="size-4 shrink-0 translate-y-1 text-ink-400 opacity-0 transition duration-300 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100 dark:text-ink-300"
                   />
-                </Link>
+                </ScrollTopLink>
               </li>
             );
           })}
