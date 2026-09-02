@@ -27,7 +27,15 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { SiteMultiSelect } from "@/components/admin/site-multi-select";
+import type { CategoryWithCount } from "@/lib/admin/categories";
 import { createCollection, updateCollection } from "@/lib/admin/collection-actions";
 import type { CollectionWithSites } from "@/lib/admin/collections";
 import type { SiteForSelection } from "@/lib/admin/sites";
@@ -39,11 +47,19 @@ const inter = Inter({
   weight: ["400", "500", "600"],
 });
 
+const NO_CATEGORY_LINK = "none";
+
 type CollectionFormDialogProps =
-  | { mode: "create"; sites: SiteForSelection[]; trigger?: ReactElement }
+  | {
+      mode: "create";
+      sites: SiteForSelection[];
+      categories: CategoryWithCount[];
+      trigger?: ReactElement;
+    }
   | {
       mode: "edit";
       sites: SiteForSelection[];
+      categories: CategoryWithCount[];
       collection: CollectionWithSites;
       trigger: ReactElement;
     };
@@ -52,10 +68,12 @@ function getDefaultValues(props: CollectionFormDialogProps): CollectionInput {
   if (props.mode === "edit") {
     return {
       name: props.collection.name,
+      rank: props.collection.rank ?? 0,
+      categoriesLinkId: props.collection.categoriesLinkId ?? "",
       siteIds: props.collection.sites.map((site) => site.id),
     };
   }
-  return { name: "", siteIds: [] };
+  return { name: "", rank: 0, categoriesLinkId: "", siteIds: [] };
 }
 
 export function CollectionFormDialog(props: CollectionFormDialogProps) {
@@ -79,6 +97,8 @@ export function CollectionFormDialog(props: CollectionFormDialogProps) {
     startTransition(async () => {
       const formData = new FormData();
       formData.set("name", values.name);
+      formData.set("rank", String(values.rank));
+      formData.set("categoriesLinkId", values.categoriesLinkId ?? "");
       values.siteIds.forEach((id) => formData.append("siteIds", id));
 
       const result =
@@ -137,6 +157,71 @@ export function CollectionFormDialog(props: CollectionFormDialogProps) {
                   <FormControl>
                     <Input placeholder="Top Sites" autoFocus {...field} />
                   </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="rank"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Rank (0-100)</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      min={0}
+                      max={100}
+                      {...field}
+                      value={
+                        typeof field.value === "number" && !Number.isNaN(field.value)
+                          ? field.value
+                          : ""
+                      }
+                      onChange={(e) =>
+                        field.onChange(
+                          e.target.value === "" ? 0 : e.target.valueAsNumber,
+                        )
+                      }
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="categoriesLinkId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Categories link (optional)</FormLabel>
+                  <Select
+                    items={[
+                      { value: NO_CATEGORY_LINK, label: "No category link" },
+                      ...props.categories.map((category) => ({
+                        value: category.id,
+                        label: category.name,
+                      })),
+                    ]}
+                    value={field.value || NO_CATEGORY_LINK}
+                    onValueChange={(value) =>
+                      field.onChange(!value || value === NO_CATEGORY_LINK ? "" : value)
+                    }
+                  >
+                    <SelectTrigger className="h-9 w-full">
+                      <SelectValue placeholder="Select a category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value={NO_CATEGORY_LINK}>No category link</SelectItem>
+                      {props.categories.map((category) => (
+                        <SelectItem key={category.id} value={category.id}>
+                          {category.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}

@@ -79,11 +79,12 @@ model Verification {
 }
 
 model Category {
-  id        String   @id @default(cuid())
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  sites     Site[]
+  id          String       @id @default(cuid())
+  name        String
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  sites       Site[]
+  collections Collection[] @relation("CollectionCategoriesLink")
 
   @@unique([name])
   @@map("category")
@@ -109,13 +110,17 @@ model Site {
 }
 
 model Collection {
-  id        String   @id @default(cuid())
-  name      String
-  sites     Site[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id               String    @id @default(cuid())
+  name             String
+  rank             Int       @default(0)
+  sites            Site[]
+  categoriesLinkId String?
+  categoriesLink   Category? @relation("CollectionCategoriesLink", fields: [categoriesLinkId], references: [id], onDelete: SetNull)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
 
   @@unique([name])
+  @@index([categoriesLinkId])
   @@map("collection")
 }
 

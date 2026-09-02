@@ -18,6 +18,7 @@ import { cn } from "@/lib/utils";
 import { getSiteBySlug } from "@/lib/client/sites";
 import { categoryHref } from "@/lib/slug";
 import BackButton from "@/components/client/backbutton";
+import { RelatedSites } from "@/components/related-sites";
 import ReactMarkdown from "react-markdown";
 
 type SitePageProps = {
@@ -52,7 +53,7 @@ export default async function SitePage({ params }: SitePageProps) {
         <Navbar />
 
         <div className="bg-cream-50 dark:bg-ink-950">
-          <div className="mx-auto max-w-5xl px-4 py-8 sm:px-2">
+          <div className="mx-auto max-w-5xl px-4 py-8 pb-16 sm:px-2">
             <BackButton />
 
             <div className="mt-6 overflow-hidden rounded-2xl ring-1 ring-foreground/10">
@@ -186,6 +187,8 @@ export default async function SitePage({ params }: SitePageProps) {
                 )}
               </div>
             </div>
+
+            <RelatedSites site={site} />
           </div>
         </div>
       </main>

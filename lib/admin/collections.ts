@@ -5,8 +5,8 @@ import { prisma } from "@/lib/prisma";
 
 export const getCollections = cache(async function getCollections() {
   return prisma.collection.findMany({
-    include: { sites: { orderBy: { name: "asc" } } },
-    orderBy: { name: "asc" },
+    include: { sites: { orderBy: { name: "asc" } }, categoriesLink: true },
+    orderBy: [{ rank: "asc" }, { name: "asc" }],
   });
 });
 

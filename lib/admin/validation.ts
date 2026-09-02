@@ -60,6 +60,12 @@ export const MAX_COLLECTION_SITES = 6;
 
 export const collectionSchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(80, "Name is too long"),
+  rank: z
+    .number()
+    .int()
+    .min(0, "Rank must be at least 0")
+    .max(100, "Rank must be at most 100"),
+  categoriesLinkId: z.string().trim().optional(),
   siteIds: z
     .array(z.string().min(1))
     .max(MAX_COLLECTION_SITES, `A collection can have at most ${MAX_COLLECTION_SITES} sites`),

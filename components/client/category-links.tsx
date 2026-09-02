@@ -59,7 +59,10 @@ const ICON_RULES: ReadonlyArray<readonly [RegExp, LucideIcon]> = [
   [/transport|logistics|courier|delivery|freight|shipping/, TruckIcon],
   [/taxi|car|vehicle|auto|motor|dealership/, CarIcon],
   [/food|restaurant|catering|cafe|dining|bakery|butcher/, UtensilsIcon],
-  [/job|career|recruit|employ|staffing|business|consult|profession/, BriefcaseIcon],
+  [
+    /job|career|recruit|employ|staffing|business|consult|profession/,
+    BriefcaseIcon,
+  ],
   [/sport|football|soccer|athlet/, TrophyIcon],
   [/gym|fitness|wellness|wellbeing/, DumbbellIcon],
   [/law|legal|attorney|advocate|court|justice/, GavelIcon],
@@ -90,18 +93,22 @@ function iconFor(name: string): LucideIcon {
 }
 
 export async function CategoryLinks() {
-  const categories = (await getCategories()).filter(
-    (category) => category._count.sites > 0,
-  );
+  const categories = await getCategories();
 
   if (categories.length === 0) return null;
 
   return (
     <section
       id="categories"
-      className="border-y border-ink-200/60 bg-cream-50 dark:border-ink-800/70 dark:bg-ink-950"
+      className="relative isolate overflow-hidden border-y border-ink-200/60 bg-cream-50 dark:border-ink-800/70 dark:bg-ink-950"
     >
-      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-2 lg:px-2 lg:py-20">
+      {/* Atmospheric wash */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -top-48 right-[-8%] -z-10 h-[460px] w-[460px] rounded-full bg-brand-blue-300/20 blur-3xl"
+      />
+
+      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-2 lg:px-2 lg:py-16">
         {/* Section masthead */}
         <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-6">
           <div>
@@ -134,7 +141,7 @@ export async function CategoryLinks() {
         </div>
 
         {/* Rule-lined directory grid */}
-        <ul className="mt-10 grid grid-cols-1 border-l border-t border-ink-200/70 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 dark:border-ink-800/80">
+        <ul className="mt-10 grid grid-cols-1 border-l border-t border-ink-200/70 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 dark:border-ink-800">
           {categories.map((category, index) => {
             const Icon = iconFor(category.name);
             const count = category._count.sites;
@@ -142,7 +149,7 @@ export async function CategoryLinks() {
             return (
               <li
                 key={category.id}
-                className="group relative animate-in fade-in slide-in-from-bottom-2 border-r border-b border-ink-200/70 duration-500 dark:border-ink-800/80"
+                className="dark:bg-ink-900 group relative animate-in fade-in slide-in-from-bottom-2 border-r border-b border-ink-200/70 duration-500 dark:border-ink-800"
                 style={{
                   animationDelay: `${Math.min(index, 11) * 45}ms`,
                   animationFillMode: "backwards",
@@ -155,11 +162,11 @@ export async function CategoryLinks() {
 
                 <Link
                   href={categoryHref(category.name)}
-                  className="flex h-full items-center gap-4 px-5 py-5 outline-none transition-colors hover:bg-cream-100 focus-visible:bg-cream-100 dark:hover:bg-ink-900/70 dark:focus-visible:bg-ink-900/70"
+                  className="flex h-full items-center gap-4 px-5 py-3.5 outline-none transition-colors hover:bg-cream-100 focus-visible:bg-cream-100 dark:hover:bg-ink-900/70 dark:focus-visible:bg-ink-900/70"
                 >
                   <span
                     aria-hidden
-                    className="grid size-11 shrink-0 place-items-center rounded-md border border-ink-200/80 bg-cream-100 text-brand-blue-700 transition-colors group-hover:border-brand-yellow-light/70 group-hover:bg-brand-yellow-light/15 group-hover:text-brand-blue-900 dark:border-ink-800 dark:bg-ink-900 dark:text-brand-blue-300 dark:group-hover:bg-brand-yellow-dark/20 dark:group-hover:text-brand-yellow-light"
+                    className="grid size-11 shrink-0 place-items-center rounded-md border border-ink-200/80 bg-cream-100 text-brand-blue-700 transition-colors group-hover:border-brand-yellow-light/70 group-hover:bg-brand-yellow-light/15 group-hover:text-brand-blue-900 dark:border-ink-700 dark:bg-ink-900 dark:text-brand-blue-300 dark:group-hover:bg-brand-yellow-dark/20 dark:group-hover:text-brand-yellow-light"
                   >
                     <Icon className="size-[18px]" strokeWidth={1.75} />
                   </span>

@@ -57,3 +57,50 @@ export const searchSites = unstable_cache(
   ["search-sites"],
   { tags: ["sites"], revalidate: 300 },
 );
+
+const getRelatedSiteCandidates = unstable_cache(
+  async function getRelatedSiteCandidates(siteId: string, categoryId: string) {
+    return prisma.site.findMany({
+      where: {
+        id: { not: siteId },
+        categories: { some: { id: categoryId } },
+      },
+      include: { categories: true },
+      orderBy: { name: "asc" },
+    });
+  },
+  ["related-site-candidates"],
+  { tags: ["sites", "categories"], revalidate: 300 },
+);
+
+function shuffle<T>(items: readonly T[]): T[] {
+  const copy = [...items];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
+/**
+ * Sites drawn at random from the given site's primary category - the first one
+ * the admin attached, which is also the one shown in the breadcrumb. Sites in
+ * the other categories are deliberately excluded.
+ *
+ * The candidate query is cached; the shuffle runs per render so the selection
+ * changes on every visit.
+ */
+export async function getRelatedSites(
+  site: Pick<SiteWithCategories, "id" | "categories">,
+  limit = 4,
+) {
+  const primaryCategory = site.categories[0];
+  if (!primaryCategory) return [];
+
+  const candidates = await getRelatedSiteCandidates(
+    site.id,
+    primaryCategory.id,
+  );
+
+  return shuffle(candidates).slice(0, limit);
+}

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Montserrat, DM_Sans, JetBrains_Mono } from "next/font/google";
+import { Footer } from "@/components/client/footer";
+import { PublicOnly } from "@/components/client/public-only";
 import "./globals.css";
 
 const montserrat = Montserrat({
@@ -43,6 +45,9 @@ export default function RootLayout({
     >
       <body className="font-sans bg-cream-50 min-h-full flex flex-col">
         {children}
+        <PublicOnly>
+          <Footer />
+        </PublicOnly>
       </body>
     </html>
   );

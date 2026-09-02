@@ -1,11 +1,27 @@
-import { Globe2 } from "lucide-react";
+import Link from "next/link";
+import { ArrowUpRightIcon, Globe2 } from "lucide-react";
 
 import { SiteCard } from "@/components/site-card";
-import { getCollectionByName } from "@/lib/client/collections";
+import {
+  getCollectionByName,
+  getCollectionByRank,
+} from "@/lib/client/collections";
+import { categoryHref } from "@/lib/slug";
 
-export async function SitesGrid({ collection }: { collection: string }) {
-  const data = await getCollectionByName(collection);
-  const sites = data?.sites ?? [];
+type SitesGridProps =
+  | { collection: string; rank?: never }
+  | { rank: number; collection?: never };
+
+export async function SitesGrid(props: SitesGridProps) {
+  const data =
+    props.rank !== undefined
+      ? await getCollectionByRank(props.rank)
+      : await getCollectionByName(props.collection);
+
+  if (!data) return null;
+
+  const sites = data.sites;
+  const categoriesLink = data.categoriesLink;
 
   if (sites.length === 0) {
     return (
@@ -21,19 +37,33 @@ export async function SitesGrid({ collection }: { collection: string }) {
 
   return (
     <div className="bg-cream-50 dark:bg-ink-950">
-      <div className="max-w-7xl mx-auto pt-8">
+      <div className="max-w-7xl mx-auto py-8">
         <h1 className="flex gap-4 items-center font-heading text-3xl font-bold dark:text-brand-blue-300 text-brand-blue-900 ">
           <span
             aria-hidden
             className="hidden h-8 w-1 shrink-0 rounded bg-brand-yellow-light sm:block"
           />
-          {data?.name ?? collection}
+          {data.name}
         </h1>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 py-8">
           {sites.slice(0, 4).map((site) => (
             <SiteCard key={site.id} site={site} />
           ))}
         </div>
+        {categoriesLink && (
+          <div className="flex justify-end pb-8">
+            <Link
+              href={categoryHref(categoriesLink.name)}
+              className="group inline-flex items-center gap-2 border-b border-ink-300 pb-1 font-mono text-[11px] uppercase tracking-[0.2em] text-ink-700 transition-colors hover:border-brand-yellow-light hover:text-brand-blue-900 dark:border-ink-700 dark:text-ink-200 dark:hover:text-brand-yellow-light"
+            >
+              See more {categoriesLink.name} sites
+              <ArrowUpRightIcon
+                aria-hidden
+                className="size-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+              />
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );

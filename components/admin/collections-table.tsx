@@ -18,15 +18,18 @@ import {
 import { CollectionFormDialog } from "@/components/admin/collection-form-dialog";
 import { DeleteConfirmDialog } from "@/components/admin/delete-confirm-dialog";
 import { deleteCollection } from "@/lib/admin/collection-actions";
+import type { CategoryWithCount } from "@/lib/admin/categories";
 import type { CollectionWithSites } from "@/lib/admin/collections";
 import type { SiteForSelection } from "@/lib/admin/sites";
 
 export function CollectionsTable({
   collections,
   sites,
+  categories,
 }: {
   collections: CollectionWithSites[];
   sites: SiteForSelection[];
+  categories: CategoryWithCount[];
 }) {
   const router = useRouter();
   const [query, setQuery] = useState("");
@@ -47,7 +50,7 @@ export function CollectionsTable({
             Create your first collection to feature sites on the homepage.
           </p>
         </div>
-        <CollectionFormDialog mode="create" sites={sites} />
+        <CollectionFormDialog mode="create" sites={sites} categories={categories} />
       </div>
     );
   }
@@ -64,12 +67,13 @@ export function CollectionsTable({
             className="pl-8"
           />
         </div>
-        <CollectionFormDialog mode="create" sites={sites} />
+        <CollectionFormDialog mode="create" sites={sites} categories={categories} />
       </div>
       <div className="rounded-lg border border-border">
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead className="w-20">Rank</TableHead>
               <TableHead>Name</TableHead>
               <TableHead>Sites</TableHead>
               <TableHead className="w-24 text-right">Actions</TableHead>
@@ -78,13 +82,16 @@ export function CollectionsTable({
           <TableBody>
             {filtered.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={3} className="py-10 text-center text-sm text-muted-foreground">
+                <TableCell colSpan={4} className="py-10 text-center text-sm text-muted-foreground">
                   No collections match &ldquo;{query}&rdquo;.
                 </TableCell>
               </TableRow>
             ) : (
               filtered.map((collection) => (
                 <TableRow key={collection.id}>
+                  <TableCell>
+                    <Badge variant="secondary">{collection.rank}</Badge>
+                  </TableCell>
                   <TableCell className="font-medium text-foreground">{collection.name}</TableCell>
                   <TableCell>
                     <div className="flex max-w-md flex-wrap items-center gap-1.5">
@@ -108,6 +115,7 @@ export function CollectionsTable({
                         mode="edit"
                         collection={collection}
                         sites={sites}
+                        categories={categories}
                         trigger={
                           <Button
                             type="button"

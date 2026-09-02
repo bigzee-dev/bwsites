@@ -67,7 +67,7 @@ export function SiteCard({ site }: { site: SiteWithCategories }) {
         </div>
         <Link
           href={`/site/${site.slug}`}
-          className="truncate font-heading font-medium text-blue-500 hover:underline"
+          className="truncate font-heading font-medium text-blue-500/70 hover:underline"
         >
           Read more
         </Link>

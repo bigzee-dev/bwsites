@@ -16,6 +16,8 @@ function isUniqueConstraintError(error: unknown) {
 function parseCollectionFormData(formData: FormData) {
   return collectionSchema.safeParse({
     name: String(formData.get("name") ?? ""),
+    rank: Number(formData.get("rank") ?? 0),
+    categoriesLinkId: String(formData.get("categoriesLinkId") ?? ""),
     siteIds: formData.getAll("siteIds").map(String),
   });
 }
@@ -35,12 +37,14 @@ export async function createCollection(formData: FormData): Promise<ActionResult
     return { success: false, error: parsed.error.issues[0]?.message ?? "Invalid input" };
   }
 
-  const { name, siteIds } = parsed.data;
+  const { name, rank, categoriesLinkId, siteIds } = parsed.data;
 
   try {
     await prisma.collection.create({
       data: {
         name,
+        rank,
+        categoriesLinkId: categoriesLinkId || null,
         sites: { connect: siteIds.map((id) => ({ id })) },
       },
     });
@@ -48,6 +52,7 @@ export async function createCollection(formData: FormData): Promise<ActionResult
     if (isUniqueConstraintError(error)) {
       return { success: false, error: "A collection with this name already exists." };
     }
+    console.error("createCollection failed", error);
     return { success: false, error: "Failed to create collection. Please try again." };
   }
 
@@ -64,13 +69,15 @@ export async function updateCollection(id: string, formData: FormData): Promise<
     return { success: false, error: parsed.error.issues[0]?.message ?? "Invalid input" };
   }
 
-  const { name, siteIds } = parsed.data;
+  const { name, rank, categoriesLinkId, siteIds } = parsed.data;
 
   try {
     await prisma.collection.update({
       where: { id },
       data: {
         name,
+        rank,
+        categoriesLinkId: categoriesLinkId || null,
         sites: { set: siteIds.map((siteId) => ({ id: siteId })) },
       },
     });
@@ -78,6 +85,7 @@ export async function updateCollection(id: string, formData: FormData): Promise<
     if (isUniqueConstraintError(error)) {
       return { success: false, error: "A collection with this name already exists." };
     }
+    console.error("updateCollection failed", error);
     return { success: false, error: "Failed to update collection. Please try again." };
   }
 
