@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { ExternalLink, ArrowBigDown } from "lucide-react";
-import { FaWhatsapp } from "react-icons/fa";
+import { FaFacebookF } from "react-icons/fa";
+import { FaExternalLinkAlt } from "react-icons/fa";
+import { BsWhatsapp } from "react-icons/bs";
 import ReactMarkdown from "react-markdown";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,11 +9,14 @@ import type { SiteWithCategories } from "@/lib/client/sites";
 
 export function SiteCard({ site }: { site: SiteWithCategories }) {
   return (
-    <Card className="h-full transition-shadow hover:shadow-md bg-cream-100 dark:bg-neutral-900 pt-0">
-      <Link href={`/site/${site.slug}`}>
-        <img src={site.image} alt={site.name} className="aspect-16/8 w-full " />
+    <Card className="h-full transition-shadow hover:shadow-md bg-cream-50 dark:bg-neutral-900 pt-0 border border-ink-200/80 dark:border-ink-800">
+      <Link
+        href={`/site/${site.slug}`}
+        className="pb-0 border-b border-ink-200/80 dark:border-ink-600"
+      >
+        <img src={site.image} alt={site.name} className="aspect-16/8 w-full" />
       </Link>
-      <CardHeader>
+      <CardHeader className="rounded-tr-none rounded-tl-none pt-0">
         <CardTitle className="flex items-center justify-between gap-2">
           {site.slug ? (
             <Link
@@ -35,7 +39,7 @@ export function SiteCard({ site }: { site: SiteWithCategories }) {
                 aria-label={`${site.name} on Facebook`}
                 className="hover:text-foreground"
               >
-                <ArrowBigDown className="size-4" />
+                <FaFacebookF className="size-4" />
               </a>
             )}
             {site.whatsapp && (
@@ -46,7 +50,7 @@ export function SiteCard({ site }: { site: SiteWithCategories }) {
                 aria-label={`Message ${site.name} on WhatsApp`}
                 className="hover:text-foreground"
               >
-                <FaWhatsapp className="size-4" />
+                <BsWhatsapp className="size-4" />
               </a>
             )}
             <a
@@ -56,7 +60,7 @@ export function SiteCard({ site }: { site: SiteWithCategories }) {
               aria-label={`Visit ${site.name}`}
               className="hover:text-foreground"
             >
-              <ExternalLink className="size-4" />
+              <FaExternalLinkAlt className="size-4" />
             </a>
           </div>
         </CardTitle>
@@ -67,7 +71,7 @@ export function SiteCard({ site }: { site: SiteWithCategories }) {
         </div>
         <Link
           href={`/site/${site.slug}`}
-          className="truncate font-heading font-medium text-blue-500/70 hover:underline"
+          className="truncate font-heading font-medium text-blue-600 dark:text-blue-500/70 hover:underline"
         >
           Read more
         </Link>

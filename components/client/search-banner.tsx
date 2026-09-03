@@ -15,7 +15,9 @@ export function SearchBanner() {
     event.preventDefault();
 
     const trimmed = query.trim();
-    router.push(trimmed ? `/search?q=${encodeURIComponent(trimmed)}` : "/search");
+    router.push(
+      trimmed ? `/search?q=${encodeURIComponent(trimmed)}` : "/search",
+    );
 
     // The banner is a jumping-off point, not a filter - leave it empty so
     // returning to the homepage never shows a stale term.
@@ -43,7 +45,7 @@ export function SearchBanner() {
         <path d="M124 124 L176 176" strokeLinecap="round" />
       </svg>
 
-      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-2 lg:px-2 lg:py-16">
+      <div className="mx-auto max-w-4xl px-4 py-16 sm:px-2 lg:px-2 lg:py-16">
         <div className="max-w-xl">
           <h2 className="flex items-center gap-4 font-heading text-3xl font-bold text-cream-50 sm:text-4xl">
             <span

@@ -53,7 +53,7 @@ export default async function SitePage({ params }: SitePageProps) {
         <Navbar />
 
         <div className="bg-cream-50 dark:bg-ink-950">
-          <div className="mx-auto max-w-5xl px-4 py-8 pb-16 sm:px-2">
+          <div className="mx-auto max-w-5xl px-4 py-8 pb-20 sm:px-2">
             <BackButton />
 
             <div className="mt-6 overflow-hidden rounded-2xl ring-1 ring-foreground/10">

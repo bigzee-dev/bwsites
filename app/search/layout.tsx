@@ -17,7 +17,7 @@ export default async function SearchLayout({
   return (
     <div className="flex min-h-svh flex-1 flex-col bg-cream-50 dark:bg-ink-950">
       <Navbar />
-      <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-6 px-4 py-6 sm:px-2 lg:flex-row lg:gap-8 lg:py-8">
+      <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-6 px-4 py-6 sm:px-2 lg:flex-row lg:gap-8 lg:py-10 lg:pb-20">
         <SearchSidebar categories={categories} />
         <SearchMobileSidebar categories={categories} />
         <main className="min-w-0 flex-1">{children}</main>

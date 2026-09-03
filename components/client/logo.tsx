@@ -12,7 +12,7 @@ export default function Logo() {
         priority
         className="block h-14 w-auto"
       />
-      <span className="font-heading font-semibold text-2xl">
+      <span className="font-heading font-semibold text-2xl text-white">
         {COMPANY_NAME}
       </span>
     </div>

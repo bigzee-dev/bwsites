@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowUpRightIcon } from "lucide-react";
+import { ArrowRightIcon, ArrowUpRightIcon } from "lucide-react";
 
 import { getRelatedSites, type SiteWithCategories } from "@/lib/client/sites";
 import { categoryHref } from "@/lib/slug";
@@ -50,10 +50,10 @@ export async function RelatedSites({ site }: RelatedSitesProps) {
         {primaryCategory && (
           <Link
             href={categoryHref(primaryCategory.name)}
-            className="group inline-flex items-center gap-2 border-b border-ink-300 pb-1 font-mono text-[11px] uppercase tracking-[0.2em] text-ink-700 transition-colors hover:border-brand-yellow-light hover:text-brand-blue-900 dark:border-ink-700 dark:text-ink-200 dark:hover:text-brand-yellow-light"
+            className="group inline-flex items-center gap-2 border-b border-ink-300 pb-1 font-sans text-[12px] uppercase tracking-[0.2em] text-ink-700 transition-colors hover:border-brand-yellow-light hover:text-brand-blue-900 dark:border-ink-700 dark:text-ink-200 dark:hover:text-brand-yellow-light"
           >
             More in {primaryCategory.name}
-            <ArrowUpRightIcon
+            <ArrowRightIcon
               aria-hidden
               className="size-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
             />
@@ -62,7 +62,7 @@ export async function RelatedSites({ site }: RelatedSitesProps) {
       </div>
 
       {/* Rule-lined index of four */}
-      <ul className="mt-8 grid grid-cols-1 gap-1 border-t border-l border-ink-200/70 sm:grid-cols-2 lg:grid-cols-4 dark:border-ink-800">
+      <ul className="mt-8 grid grid-cols-1 gap-2 border-t border-l border-ink-200/70 sm:grid-cols-2 lg:grid-cols-4 dark:border-ink-800">
         {related.map((relatedSite, index) => {
           const domain = hostnameOf(relatedSite.url);
 
