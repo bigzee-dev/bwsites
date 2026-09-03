@@ -1,6 +1,6 @@
 import { Navbar } from "@/components/client/navbar";
 import { Hero } from "@/components/client/hero";
-import { SitesGrid } from "@/components/sites-grid";
+import { Test } from "./test";
 import { CategoryLinks } from "@/components/client/category-links";
 import { SearchBanner } from "@/components/client/search-banner";
 import { CollectionsContainer } from "@/components/collections-container";
@@ -15,15 +15,7 @@ export default function Home() {
         <CollectionsContainer collections={[1, 2, 3]} />
         <CategoryLinks />
         <a href="/search/media">PLAIN HTML TEST</a>
-        <Link
-          href="/search/media"
-          scroll={false}
-          onClick={() => {
-            window.scrollTo(0, 0);
-          }}
-        >
-          LINK TEST
-        </Link>
+        <Test />
         <CollectionsContainer collections={[4, 5, 6]} />
         <SearchBanner />
         <CollectionsContainer collections={[7, 8, 9]} />
