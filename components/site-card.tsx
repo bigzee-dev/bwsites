@@ -16,12 +16,12 @@ export function SiteCard({ site }: { site: SiteWithCategories }) {
       >
         <img src={site.image} alt={site.name} className="aspect-16/8 w-full" />
       </Link>
-      <CardHeader className="rounded-tr-none rounded-tl-none pt-0">
+      <CardHeader className="rounded-tr-none rounded-tl-none pt-0 ">
         <CardTitle className="flex items-center justify-between gap-2">
           {site.slug ? (
             <Link
               href={`/site/${site.slug}`}
-              className="truncate font-heading font-bold text-brand-blue-900 dark:text-ink-200 "
+              className="truncate font-heading font-bold text-brand-blue-900 dark:text-ink-200  "
             >
               {site.name}
             </Link>
@@ -30,7 +30,7 @@ export function SiteCard({ site }: { site: SiteWithCategories }) {
               {site.name}
             </span>
           )}
-          <div className="flex shrink-0 items-center gap-2 text-muted-foreground">
+          <div className="flex shrink-0 items-center gap-x-3 sm:gap-x-2.5 text-brand-blue-700 dark:text-ink-200">
             {site.facebookUrl && (
               <a
                 href={site.facebookUrl}
@@ -39,7 +39,7 @@ export function SiteCard({ site }: { site: SiteWithCategories }) {
                 aria-label={`${site.name} on Facebook`}
                 className="hover:text-foreground"
               >
-                <FaFacebookF className="size-4" />
+                <FaFacebookF className="size-3.5" />
               </a>
             )}
             {site.whatsapp && (
@@ -50,7 +50,7 @@ export function SiteCard({ site }: { site: SiteWithCategories }) {
                 aria-label={`Message ${site.name} on WhatsApp`}
                 className="hover:text-foreground"
               >
-                <BsWhatsapp className="size-4" />
+                <BsWhatsapp className="size-3.5" strokeWidth={0.6} />
               </a>
             )}
             <a
@@ -60,7 +60,7 @@ export function SiteCard({ site }: { site: SiteWithCategories }) {
               aria-label={`Visit ${site.name}`}
               className="hover:text-foreground"
             >
-              <FaExternalLinkAlt className="size-4" />
+              <FaExternalLinkAlt className="size-3.5" />
             </a>
           </div>
         </CardTitle>
