@@ -52,9 +52,8 @@ export async function SitesGrid(props: SitesGridProps) {
         </div>
         {categoriesLink && (
           <div className="flex justify-end pb-8">
-            <Link
+            <a
               href={categoryHref(categoriesLink.name)}
-              scroll={true}
               className="group inline-flex items-center gap-2 border-b border-ink-300 pb-1 font-mono text-[11px] uppercase tracking-[0.2em] text-ink-700 transition-colors hover:border-brand-yellow-light hover:text-brand-blue-900 dark:border-ink-700 dark:text-ink-200 dark:hover:text-brand-yellow-light"
             >
               See more {categoriesLink.name} sites
@@ -62,7 +61,7 @@ export async function SitesGrid(props: SitesGridProps) {
                 aria-hidden
                 className="size-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
               />
-            </Link>
+            </a>
           </div>
         )}
       </div>
