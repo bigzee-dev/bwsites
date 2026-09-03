@@ -15,7 +15,9 @@ export default function Home() {
         <CollectionsContainer collections={[1, 2, 3]} />
         <CategoryLinks />
         <a href="/search/media">PLAIN HTML TEST</a>
-        <Link href="/search/media">LINK TEST</Link>
+        <Link href="/search/media" prefetch={false}>
+          LINK TEST
+        </Link>
         <CollectionsContainer collections={[4, 5, 6]} />
         <SearchBanner />
         <CollectionsContainer collections={[7, 8, 9]} />
