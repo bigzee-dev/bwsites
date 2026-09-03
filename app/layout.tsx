@@ -41,10 +41,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${montserrat.variable} ${dmSans.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      className={`${montserrat.variable} ${dmSans.variable} ${jetbrainsMono.variable} antialiased`}
     >
-      <body className="font-sans bg-cream-50 min-h-full flex flex-col">
+      <body className="flex min-h-svh flex-col bg-cream-50 font-sans">
         {children}
+
         <PublicOnly>
           <Footer />
         </PublicOnly>
