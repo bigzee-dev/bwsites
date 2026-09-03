@@ -15,7 +15,13 @@ export default function Home() {
         <CollectionsContainer collections={[1, 2, 3]} />
         <CategoryLinks />
         <a href="/search/media">PLAIN HTML TEST</a>
-        <Link href="/search/media" prefetch={false}>
+        <Link
+          href="/search/media"
+          scroll={false}
+          onClick={() => {
+            window.scrollTo(0, 0);
+          }}
+        >
           LINK TEST
         </Link>
         <CollectionsContainer collections={[4, 5, 6]} />
