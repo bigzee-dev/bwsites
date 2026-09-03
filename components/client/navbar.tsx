@@ -2,7 +2,7 @@
 
 import { Suspense, useEffect, useState } from "react";
 import Link from "next/link";
-import { scrollToHash } from "@/lib/scroll";
+
 import Logo from "./logo";
 import { NavbarSearch } from "./navbar-search";
 
@@ -50,7 +50,6 @@ export function Navbar() {
               <Link
                 key={l.href}
                 href={l.href}
-                onClick={(e) => scrollToHash(e, l.href)}
                 className="group inline-flex items-baseline gap-1.5 rounded-full px-3 py-2 text-sm font-medium text-ink-100 transition hover:text-clay-600 dark:hover:text-clay-300"
               >
                 <span>{l.label}</span>
@@ -114,7 +113,6 @@ export function Navbar() {
                 key={l.href}
                 href={l.href}
                 onClick={(e) => {
-                  scrollToHash(e, l.href);
                   setOpen(false);
                 }}
                 className="flex items-baseline justify-between py-4"
@@ -131,7 +129,6 @@ export function Navbar() {
           <Link
             href="#contact"
             onClick={(e) => {
-              scrollToHash(e, "#contact");
               setOpen(false);
             }}
             className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-ink-900 px-4 py-3 text-sm font-medium text-cream-50 dark:bg-cream-100 dark:text-ink-950"
