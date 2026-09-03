@@ -7,7 +7,7 @@ import Logo from "./logo";
 import { NavbarSearch } from "./navbar-search";
 
 const links = [
-  { href: "#how-it-works", label: "How It works", n: "02" },
+  { href: "/search/media", label: "How It works", n: "02" },
   { href: "#why-us", label: "About", n: "03" },
   { href: "#faq", label: "FAQs", n: "04" },
   { href: "#contact", label: "Contact us", n: "05" },
