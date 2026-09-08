@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import {
   ArrowLeft,
   Globe,
+  Image as ImageIcon,
   LayoutDashboard,
   Layers,
   Menu,
@@ -31,6 +32,7 @@ export const NAV_ITEMS = [
   { href: "/admin/auto", label: "Auto", icon: Wand2 },
   { href: "/admin/categories", label: "Categories", icon: Tags },
   { href: "/admin/collections", label: "Collections", icon: Layers },
+  { href: "/admin/images", label: "Images", icon: ImageIcon },
   { href: "/admin/searches", label: "Searches", icon: Search },
 ];
 
