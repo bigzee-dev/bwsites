@@ -9,7 +9,7 @@ import type { SiteWithCategories } from "@/lib/client/sites";
 
 export function SiteCard({ site }: { site: SiteWithCategories }) {
   return (
-    <Card className="h-full transition-shadow hover:shadow-md bg-cream-50 dark:bg-neutral-900 pt-0 border border-ink-200/80 dark:border-ink-800">
+    <Card className="h-full transition-shadow hover:shadow-md bg-neutral-100 dark:bg-neutral-900 pt-0 border border-ink-200/80 dark:border-ink-800">
       <Link
         href={`/site/${site.slug}`}
         className="pb-0 border-b border-ink-200/80 dark:border-ink-600"

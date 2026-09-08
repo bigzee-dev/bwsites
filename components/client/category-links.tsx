@@ -101,7 +101,7 @@ export async function CategoryLinks() {
   return (
     <section
       id="categories"
-      className="relative isolate overflow-hidden border-y border-ink-200/60 bg-cream-50 dark:border-ink-800/70 dark:bg-ink-950"
+      className="relative isolate overflow-hidden border-y border-ink-200/60 bg-cream-50 dark:border-ink-800/70 dark:bg-ink-900"
     >
       {/* Atmospheric wash */}
       <div
@@ -150,7 +150,7 @@ export async function CategoryLinks() {
             return (
               <li
                 key={category.id}
-                className="dark:bg-ink-900 group relative animate-in fade-in slide-in-from-bottom-2 border-r border-b border-ink-200/70 duration-500 dark:border-ink-800"
+                className="dark:bg-ink-950 group relative animate-in fade-in slide-in-from-bottom-2 border-r border-b border-ink-200/70 duration-500 dark:border-ink-800"
                 style={{
                   animationDelay: `${Math.min(index, 11) * 45}ms`,
                   animationFillMode: "backwards",
