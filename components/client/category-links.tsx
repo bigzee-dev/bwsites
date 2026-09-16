@@ -142,7 +142,7 @@ export async function CategoryLinks() {
         </div>
 
         {/* Rule-lined directory grid */}
-        <ul className="mt-10 grid grid-cols-1 border-l border-t border-ink-200/70 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 dark:border-ink-800">
+        <ul className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 dark:border-ink-800">
           {categories.map((category, index) => {
             const Icon = iconFor(category.name);
             const count = category._count.sites;
@@ -150,41 +150,28 @@ export async function CategoryLinks() {
             return (
               <li
                 key={category.id}
-                className="dark:bg-ink-950 group relative animate-in fade-in slide-in-from-bottom-2 border-r border-b border-ink-200/70 duration-500 dark:border-ink-800"
+                className="group relative animate-in fade-in slide-in-from-bottom-2  duration-500 "
                 style={{
                   animationDelay: `${Math.min(index, 11) * 45}ms`,
                   animationFillMode: "backwards",
                 }}
               >
-                <span
-                  aria-hidden
-                  className="absolute inset-y-0 left-0 w-[3px] origin-top scale-y-0 bg-brand-yellow-light transition-transform duration-300 ease-out group-hover:scale-y-100 group-focus-within:scale-y-100"
-                />
-
                 <ScrollTopLink
                   href={categoryHref(category.name)}
-                  className="flex h-full items-center gap-4 px-5 py-3.5 outline-none transition-colors hover:bg-cream-100 focus-visible:bg-cream-100 dark:hover:bg-ink-900/70 dark:focus-visible:bg-ink-900/70"
+                  className="flex h-full items-center gap-2.5 pl-0 pr-5 py-3.5 outline-none transition-colors  focus-visible:bg-cream-100  dark:hover:text-ink-400 group-hover:text-brand-blue-900 dark:text-ink-200 text-brand-blue-700 "
                 >
                   <span
                     aria-hidden
-                    className="grid size-11 shrink-0 place-items-center rounded-md border border-ink-200/80 bg-cream-100 text-brand-blue-700 transition-colors group-hover:border-brand-yellow-light/70 group-hover:bg-brand-yellow-light/15 group-hover:text-brand-blue-900 dark:border-ink-700 dark:bg-ink-900 dark:text-brand-blue-300 dark:group-hover:bg-brand-yellow-dark/20 dark:group-hover:text-brand-yellow-light"
+                    className="grid  shrink-0 place-items-center  transition-colors"
                   >
                     <Icon className="size-[18px]" strokeWidth={1.75} />
                   </span>
 
                   <span className="min-w-0 flex-1">
-                    <span className="block truncate font-heading text-[15px] font-semibold text-ink-900 dark:text-ink-100">
+                    <span className="block truncate font-heading text-[15px] font-semibold ">
                       {category.name}
                     </span>
-                    <span className="mt-1 block font-mono text-[11px] text-ink-500 dark:text-ink-400">
-                      {count} {count === 1 ? "site" : "sites"}
-                    </span>
                   </span>
-
-                  <ArrowUpRightIcon
-                    aria-hidden
-                    className="size-4 shrink-0 translate-y-1 text-ink-400 opacity-0 transition duration-300 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100 dark:text-ink-300"
-                  />
                 </ScrollTopLink>
               </li>
             );

@@ -37,33 +37,35 @@ export async function SitesGrid(props: SitesGridProps) {
 
   return (
     <div className="bg-cream-50 dark:bg-ink-950">
-      <div className="max-w-7xl mx-auto py-8">
-        <h1 className="flex gap-4 items-center font-heading text-3xl font-bold dark:text-brand-blue-300 text-brand-blue-900 ">
-          <span
-            aria-hidden
-            className="hidden h-8 w-1 shrink-0 rounded bg-brand-yellow-light sm:block"
-          />
-          {data.name}
-        </h1>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 py-8">
+      <div className="max-w-7xl mx-auto pt-16 pb-0">
+        <div className="flex items-center justify-between">
+          <h1 className="flex gap-4 items-center font-heading text-3xl font-bold dark:text-brand-blue-300 text-brand-blue-900 ">
+            <span
+              aria-hidden
+              className="hidden h-8 w-1 shrink-0 rounded bg-brand-yellow-light sm:block"
+            />
+            {data.name}
+          </h1>
+          {categoriesLink && (
+            <div className="flex justify-center">
+              <a
+                href={categoryHref(categoriesLink.name)}
+                className="group inline-flex items-center gap-2 font-sans font-medium text-[12px] uppercase tracking-[0.2em] text-ink-700 transition-colors  hover:text-brand-blue-900 dark:border-ink-700 dark:text-ink-200 dark:hover:text-brand-yellow-light"
+              >
+                See more {categoriesLink.name} sites
+                <ArrowRightIcon
+                  aria-hidden
+                  className="size-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                />
+              </a>
+            </div>
+          )}
+        </div>
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 py-8">
           {sites.slice(0, 4).map((site) => (
             <SiteCard key={site.id} site={site} />
           ))}
         </div>
-        {categoriesLink && (
-          <div className="flex justify-center mt-2 pb-8">
-            <a
-              href={categoryHref(categoriesLink.name)}
-              className="group inline-flex items-center gap-2 border-b border-ink-300 pb-1 font-sans font-medium text-[12px] uppercase tracking-[0.2em] text-ink-700 transition-colors hover:border-brand-yellow-light hover:text-brand-blue-900 dark:border-ink-700 dark:text-ink-200 dark:hover:text-brand-yellow-light"
-            >
-              See more {categoriesLink.name} sites
-              <ArrowRightIcon
-                aria-hidden
-                className="size-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-              />
-            </a>
-          </div>
-        )}
       </div>
     </div>
   );
