@@ -169,7 +169,7 @@ export async function CategoryLinks() {
 
                   <span className="min-w-0 flex-1">
                     <span className="block truncate font-heading text-[15px] font-semibold ">
-                      {category.name}
+                      {category.name} ({count})
                     </span>
                   </span>
                 </ScrollTopLink>
