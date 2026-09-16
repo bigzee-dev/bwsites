@@ -6,7 +6,7 @@ import { CollectionsContainer } from "@/components/collections-container";
 
 export default function Home() {
   return (
-    <div className="flex flex-1 flex-col bg-background">
+    <div className="flex flex-1 flex-col dark:bg-ink-950">
       <main className=" w-full flex-1">
         <Navbar />
         <Hero />

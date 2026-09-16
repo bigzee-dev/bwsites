@@ -101,7 +101,7 @@ export async function CategoryLinks() {
   return (
     <section
       id="categories"
-      className="relative isolate overflow-hidden border-y border-ink-200/60 bg-cream-50 dark:border-ink-800/70 dark:bg-ink-900"
+      className="mt-12 relative isolate overflow-hidden border-y border-ink-200/60 bg-cream-50 dark:border-ink-800/70 dark:bg-ink-900"
     >
       {/* Atmospheric wash */}
       <div
@@ -109,13 +109,10 @@ export async function CategoryLinks() {
         className="pointer-events-none absolute -top-48 right-[-8%] -z-10 h-[460px] w-[460px] rounded-full bg-brand-blue-300/20 blur-3xl"
       />
 
-      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-2 lg:px-2 lg:py-16">
+      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-2 lg:px-2 lg:py-14">
         {/* Section masthead */}
         <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-6">
           <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.3em] text-ink-500 dark:text-ink-300">
-              The Index
-            </p>
             <h2 className="mt-3 flex items-center gap-4 font-heading text-3xl font-bold text-brand-blue-900 dark:text-brand-blue-300 sm:text-4xl">
               <span
                 aria-hidden
@@ -123,10 +120,6 @@ export async function CategoryLinks() {
               />
               Browse by Category
             </h2>
-            <p className="mt-4 max-w-lg text-sm leading-[1.7] text-ink-700 text-pretty dark:text-ink-200">
-              Every site we list is filed under the sections Botswana actually
-              looks for. Pick one to see what is worth visiting inside it.
-            </p>
           </div>
 
           <a

@@ -25,7 +25,7 @@ export function SearchBanner() {
   }
 
   return (
-    <section className="relative isolate overflow-hidden bg-brand-blue-900">
+    <section className="mt-12 relative isolate overflow-hidden bg-brand-blue-900">
       {/* Atmospheric wash */}
       <div
         aria-hidden
