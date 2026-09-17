@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRightIcon } from "lucide-react";
+import FooterButton from "./footerbutton";
 
 import { COMPANY_NAME, CITY, COUNTRY } from "@/lib/constants";
 
@@ -64,27 +65,7 @@ export function Footer() {
               maintained, useful and worth your click.
             </p>
           </div>
-
-          <Link
-            href="/search"
-            className="group inline-flex items-center gap-4 rounded-xl bg-brand-blue-700 px-6 py-3.5 text-sm font-medium text-ink-199 transition hover:bg-brand-yellow-dark"
-          >
-            Search the directory
-            <span className="grid h-6 w-6 place-items-center rounded-full bg-brand-blue-900/15 transition group-hover:translate-x-0.5">
-              <svg
-                aria-hidden
-                className="h-3 w-3"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.6"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M5 12h14M13 5l7 7-7 7" />
-              </svg>
-            </span>
-          </Link>
+          <FooterButton />
         </div>
 
         {/* Colophon columns */}
