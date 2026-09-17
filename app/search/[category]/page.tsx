@@ -7,6 +7,7 @@ import { searchSites } from "@/lib/client/sites";
 
 type CategoryPageProps = {
   params: Promise<{ category: string }>;
+  searchParams: Promise<{ page?: string }>;
 };
 
 export async function generateMetadata({
@@ -22,13 +23,25 @@ export async function generateMetadata({
   };
 }
 
-export default async function CategoryPage({ params }: CategoryPageProps) {
+export default async function CategoryPage({
+  params,
+  searchParams,
+}: CategoryPageProps) {
   const { category: categorySlug } = await params;
+  const { page } = await searchParams;
   const category = await getCategoryBySlug(categorySlug);
 
   if (!category) notFound();
 
+  const currentPage = Number.parseInt(page ?? "1", 10);
   const sites = await searchSites("", category.id);
 
-  return <SearchResults sites={sites} heading={category.name} />;
+  return (
+    <SearchResults
+      sites={sites}
+      heading={category.name}
+      page={Number.isNaN(currentPage) ? 1 : currentPage}
+      basePath={`/search/${categorySlug}`}
+    />
+  );
 }

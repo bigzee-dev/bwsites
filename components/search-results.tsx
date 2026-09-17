@@ -1,15 +1,29 @@
 import { Globe2 } from "lucide-react";
 
+import { Pagination } from "@/components/pagination";
 import { SiteCard } from "@/components/site-card";
 import type { SiteWithCategories } from "@/lib/client/sites";
+
+export const SITES_PER_PAGE = 30;
 
 export function SearchResults({
   sites,
   heading,
+  page = 1,
+  basePath,
+  params,
 }: {
   sites: SiteWithCategories[];
   heading: string;
+  page?: number;
+  basePath: string;
+  params?: Record<string, string | undefined>;
 }) {
+  const totalPages = Math.max(1, Math.ceil(sites.length / SITES_PER_PAGE));
+  const currentPage = Math.min(Math.max(page, 1), totalPages);
+  const start = (currentPage - 1) * SITES_PER_PAGE;
+  const visibleSites = sites.slice(start, start + SITES_PER_PAGE);
+
   return (
     <div>
       <div className="mb-6 flex flex-col  gap-4">
@@ -24,6 +38,7 @@ export function SearchResults({
         </div>
         <p className="text-sm text-muted-foreground font-mono">
           {sites.length} {sites.length === 1 ? "site" : "sites"} found
+          {totalPages > 1 && ` · page ${currentPage} of ${totalPages}`}
         </p>
       </div>
 
@@ -40,11 +55,20 @@ export function SearchResults({
           </div>
         </div>
       ) : (
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
-          {sites.map((site) => (
-            <SiteCard key={site.id} site={site} />
-          ))}
-        </div>
+        <>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
+            {visibleSites.map((site) => (
+              <SiteCard key={site.id} site={site} />
+            ))}
+          </div>
+
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            basePath={basePath}
+            params={params}
+          />
+        </>
       )}
     </div>
   );
