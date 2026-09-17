@@ -10,12 +10,9 @@ import {
   NavCategoriesMenu,
   type NavCategory,
 } from "./navbar-categories";
+import { SubmitSiteDialog } from "./submit-site-dialog";
 
-const links = [
-  { href: "#why-us", label: "About", n: "02" },
-  { href: "#faq", label: "FAQs", n: "03" },
-  { href: "#contact", label: "Contact us", n: "04" },
-];
+const links = [{ href: "/about", label: "About", n: "01" }];
 
 const WHATSAPP_LINK =
   "https://wa.me/26775376888?text=" +
@@ -60,6 +57,16 @@ export function NavbarClient({ categories }: { categories: NavCategory[] }) {
                 <span>{l.label}</span>
               </Link>
             ))}
+            <SubmitSiteDialog
+              trigger={
+                <button
+                  type="button"
+                  className="ml-4 inline-flex h-10 cursor-pointer items-center gap-1.5 rounded-lg bg-white/15 px-4 text-sm font-medium text-white transition hover:bg-brand-yellow-dark border border-white/30"
+                >
+                  Submit a Site
+                </button>
+              }
+            />
           </nav>
 
           {/* Mobile hamburger */}
@@ -136,6 +143,19 @@ export function NavbarClient({ categories }: { categories: NavCategory[] }) {
               </Link>
             ))}
           </nav>
+          <SubmitSiteDialog
+            onOpenChange={(dialogOpen) => {
+              if (dialogOpen) setOpen(false);
+            }}
+            trigger={
+              <button
+                type="button"
+                className="mt-4 inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-white px-4 py-3 text-sm font-semibold text-ink-900 transition hover:bg-brand-yellow-dark"
+              >
+                Submit a Site
+              </button>
+            }
+          />
           <Link
             href="#contact"
             onClick={(e) => {

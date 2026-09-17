@@ -51,9 +51,9 @@ export function NavCategoriesMenu({
       <DropdownMenuContent
         align="end"
         sideOffset={10}
-        className="w-[min(92vw,44rem)] overflow-x-hidden overflow-y-hidden rounded-xl border border-ink-200/70 bg-cream-50 p-0 shadow-[0_28px_60px_-28px_rgba(1,74,117,0.5)] ring-0 dark:border-ink-800 dark:bg-ink-900"
+        className="w-[min(92vw,44rem)] overflow-x-hidden overflow-y-hidden rounded-xl border border-ink-200/70 bg-cream-50 p-0 shadow-[0_28px_60px_-28px_rgba(1,74,117,0.5)] ring-0 dark:border-ink-800 dark:bg-neutral-800"
       >
-        <div className="max-h-[min(62vh,26rem)] overflow-y-auto p-3">
+        <div className="max-h-[min(62vh,26rem)] overflow-y-auto p-4">
           <div className="grid grid-cols-2 gap-x-2 lg:grid-cols-3">
             {categories.map((category) => (
               <DropdownMenuItem
