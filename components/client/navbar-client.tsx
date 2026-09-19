@@ -61,7 +61,7 @@ export function NavbarClient({ categories }: { categories: NavCategory[] }) {
               trigger={
                 <button
                   type="button"
-                  className="ml-4 inline-flex h-10 cursor-pointer items-center gap-1.5 rounded-lg bg-white/15 px-4 text-sm font-medium text-white transition hover:bg-brand-yellow-dark border border-white/30"
+                  className="ml-5 inline-flex h-10 cursor-pointer items-center gap-1.5 rounded-lg bg-white/15 px-4 text-sm font-medium text-white transition hover:bg-brand-yellow-dark border border-white/30"
                 >
                   Submit a Site
                 </button>
