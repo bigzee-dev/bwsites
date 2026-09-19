@@ -72,3 +72,9 @@ export const collectionSchema = z.object({
 });
 
 export type CollectionInput = z.infer<typeof collectionSchema>;
+
+export const checkRunSchema = z.object({
+  categoryId: z.string().min(1, "Select a category to check"),
+});
+
+export type CheckRunInput = z.infer<typeof checkRunSchema>;
