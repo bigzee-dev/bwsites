@@ -5,6 +5,12 @@ import { getSites } from "@/lib/client/sites";
 import { SITE_URL } from "@/lib/constants";
 import { slugify } from "@/lib/slug";
 
+/**
+ * Generated per request, never at build time: the build container has no route
+ * to the database, and the underlying queries are already cached for 5 minutes.
+ */
+export const dynamic = "force-dynamic";
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [categories, sites] = await Promise.all([getCategories(), getSites()]);
 
