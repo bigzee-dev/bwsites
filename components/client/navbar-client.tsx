@@ -103,22 +103,24 @@ export function NavbarClient({ categories }: { categories: NavCategory[] }) {
         </div>
       </div>
 
+      {/* Mobile search: sits in the bar itself so finding a site never means
+          opening the menu first. Hidden from md up, where the centered search
+          in the bar above already covers it. */}
+      <div className="mx-auto w-full max-w-7xl px-4 pb-2 sm:px-2 md:hidden">
+        <Suspense fallback={<div className="h-8 w-full" />}>
+          <NavbarSearch />
+        </Suspense>
+      </div>
+
       {/* Mobile menu */}
       <div
         className={`lg:hidden ${
           open
-            ? "max-h-[calc(100svh-3.75rem)] overflow-y-auto opacity-100"
+            ? "max-h-[calc(100svh-6.5rem)] overflow-y-auto opacity-100"
             : "max-h-0 overflow-hidden opacity-0 pointer-events-none"
         } duration-500`}
       >
         <div className="border-t border-ink-200/60 bg-cream-50 px-4 pb-6 pt-3 dark:border-ink-800/70 dark:bg-ink-950">
-          <Suspense fallback={<div className="h-8 w-full" />}>
-            <NavbarSearch
-              className="pb-3 md:hidden"
-              inputClassName="text-ink-900 placeholder:text-ink-400 border-ink-200 focus-visible:ring-ink-300 dark:text-ink-100 dark:border-ink-700"
-              buttonClassName="bg-brand-blue-900 text-white dark:bg-brand-blue-300 dark:text-brand-blue-900"
-            />
-          </Suspense>
           <nav className="flex flex-col divide-y divide-ink-100 dark:divide-ink-800">
             <NavCategoriesDisclosure
               categories={categories}
