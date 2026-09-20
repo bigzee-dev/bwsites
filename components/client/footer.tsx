@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRightIcon } from "lucide-react";
 import FooterButton from "./footerbutton";
-
+import FooterSiteBtn from "./footersitebtn";
 import { COMPANY_NAME, CITY, COUNTRY } from "@/lib/constants";
 
 /**
@@ -13,9 +13,7 @@ const SECTIONS = [
   { href: "/", label: "Home" },
   { href: "/search", label: "Browse all sites" },
   { href: "/#categories", label: "Categories" },
-  { href: "/#how-it-works", label: "How it works" },
-  { href: "/#why-us", label: "About" },
-  { href: "/#faq", label: "FAQs" },
+  { href: "/about", label: "About" },
 ] as const;
 
 export function Footer() {
@@ -102,14 +100,7 @@ export function Footer() {
               Every listing is reviewed by hand before it earns a place in the
               index. Spotted something we have missed?
             </p>
-            <Link
-              href="/#contact"
-              className="mt-5 inline-flex items-center gap-2 border-b border-cream-100/30 pb-1 font-mono text-[11px] uppercase tracking-[0.2em] text-cream-50 transition-colors hover:border-brand-yellow-light hover:text-brand-yellow-light"
-            >
-              Suggest a site
-              <ArrowUpRightIcon aria-hidden className="size-3.5" />
-            </Link>
-
+            <FooterSiteBtn />
             <p className="mt-8 font-mono text-[11px] uppercase tracking-[0.2em] text-cream-100/45">
               {CITY}, {COUNTRY}
             </p>

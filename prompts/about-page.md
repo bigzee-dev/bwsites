@@ -1,4 +1,10 @@
-### Online Spot
+### Create the "About" page
+
+Use your frontend skill to create the about page. Below you will find the content to put in the /about page Follow all project conventions in CLAUDE.md
+
+---
+
+## Content for about page
 
 **Online Spot** is a guide to Botswana's digital world, helping people discover the country's most useful, reliable, and trustworthy websites.
 
@@ -15,3 +21,11 @@ Whether you're looking for government services, tourism information, financial i
 Instead of searching through pages of search engine results, simply search for a category or service—such as **Tourism**, **Banking**, **Jobs**, **Education**, or **Health**—and Online Spot will present a carefully curated selection of websites that we believe are the best choices for that need.
 
 Our mission is simple: **to make discovering Botswana's best online resources fast, easy, and trustworthy.**
+
+---
+
+# Code Quality
+
+Write clean, maintainable code that follows the existing project architecture.
+
+Reuse existing components where appropriate.

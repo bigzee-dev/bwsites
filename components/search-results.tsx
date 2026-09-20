@@ -4,7 +4,7 @@ import { Pagination } from "@/components/pagination";
 import { SiteCard } from "@/components/site-card";
 import type { SiteWithCategories } from "@/lib/client/sites";
 
-export const SITES_PER_PAGE = 30;
+export const SITES_PER_PAGE = 21;
 
 export function SearchResults({
   sites,
