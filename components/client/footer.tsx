@@ -124,9 +124,14 @@ export function Footer() {
           <p>
             © {year} {COMPANY_NAME}
           </p>
-          <p>
-            Made in {CITY} — {COUNTRY}
-          </p>
+          <a
+            href="https://deltaworx.co.bw"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-cream-100/50 hover:text-brand-yellow-light transition-colors"
+          >
+            Developed by Deltaworx
+          </a>
         </div>
       </div>
     </footer>

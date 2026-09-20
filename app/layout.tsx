@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Montserrat, DM_Sans, JetBrains_Mono } from "next/font/google";
 import { Footer } from "@/components/client/footer";
 import { PublicOnly } from "@/components/client/public-only";
+import { SITE_URL } from "@/lib/constants";
 import "./globals.css";
 
 const montserrat = Montserrat({
@@ -25,6 +26,7 @@ const jetbrainsMono = JetBrains_Mono({
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "OnlineSpot",
   description:
     "Discover reliable websites, essential services, and the best online resources Botswana has to offer.",

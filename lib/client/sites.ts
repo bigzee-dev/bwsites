@@ -104,3 +104,11 @@ export async function getRelatedSites(
 
   return shuffle(candidates).slice(0, limit);
 }
+
+export const getSitesCount = unstable_cache(
+  async function getSitesCount() {
+    return prisma.site.count();
+  },
+  ["sites-count"],
+  { tags: ["sites"], revalidate: 300 },
+);

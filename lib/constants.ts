@@ -7,6 +7,15 @@
  * Values marked PLACEHOLDER should be replaced once the client confirms them.
  */
 
+/**
+ * Canonical origin of the public site, used for sitemap/robots URLs and page
+ * metadata. Override per environment with NEXT_PUBLIC_SITE_URL; a trailing
+ * slash is stripped here so callers can append paths directly.
+ */
+export const SITE_URL = (
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://onlinespot.co.bw"
+).replace(/\/+$/, "");
+
 export const COMPANY_NAME = "Online Spot";
 
 /** Short form used in tight spaces (nav, footer marks). */

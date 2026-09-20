@@ -53,7 +53,10 @@ export function NavbarSearch({
         />
         <Button
           type="submit"
-          className={cn("bg-white text-ink-700 shrink-0", buttonClassName)}
+          className={cn(
+            "bg-white text-ink-700 shrink-0 hover:text-brand-blue-300 hover:bg-white dark:hover:bg-white",
+            buttonClassName,
+          )}
         >
           Search
         </Button>

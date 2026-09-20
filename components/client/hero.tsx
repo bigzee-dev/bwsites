@@ -19,7 +19,7 @@ export async function Hero() {
       <div className="mx-auto grid max-w-7xl gap-12 px-4 pb-16 pt-10 sm:px-2 lg:grid-cols-12 lg:gap-10 lg:px-2 lg:pb-8 lg:pt-16">
         {/* Editorial copy column */}
         <div className="lg:col-span-7">
-          <h1 className="font-display text-[44px] font-semibold leading-[0.95] tracking-editorial text-ink-900 text-balance sm:text-[58px]  dark:text-ink-100">
+          <h1 className="font-heading text-[40px] leading-[0.98] font-semibold text-balance text-ink-900 sm:text-[56px] lg:col-span-7 dark:text-ink-100">
             The Trusted Guide to Botswana's Online World
           </h1>
 
@@ -55,10 +55,10 @@ export async function Hero() {
               </span>
             </Link>
             <Link
-              href="#how-it-works"
+              href="/#categories"
               className="link-underline inline-flex items-center gap-2 py-3 text-sm font-medium text-ink-900 dark:text-cream-100"
             >
-              How it works
+              Categories
               <span className="font-mono text-[11px] text-clay-600 dark:text-clay-300">
                 →
               </span>

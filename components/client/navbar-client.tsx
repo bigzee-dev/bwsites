@@ -61,7 +61,7 @@ export function NavbarClient({ categories }: { categories: NavCategory[] }) {
               trigger={
                 <button
                   type="button"
-                  className="ml-5 inline-flex h-10 cursor-pointer items-center gap-1.5 rounded-lg bg-white/15 px-4 text-sm font-medium text-white transition hover:bg-brand-yellow-dark border border-white/30"
+                  className="ml-5 inline-flex h-10 cursor-pointer items-center gap-1.5 rounded-lg bg-white/15 px-4 text-sm font-medium text-white transition hover:bg-white/25 border border-white/30"
                 >
                   Submit a Site
                 </button>
@@ -150,7 +150,7 @@ export function NavbarClient({ categories }: { categories: NavCategory[] }) {
             trigger={
               <button
                 type="button"
-                className="mt-4 inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-white px-4 py-3 text-sm font-semibold text-ink-900 transition hover:bg-brand-yellow-dark"
+                className="mt-4 inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-white px-4 py-3 text-sm font-semibold text-ink-900 transition hover:text-brand-blue-300"
               >
                 Submit a Site
               </button>
