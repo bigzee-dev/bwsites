@@ -156,26 +156,6 @@ export function NavbarClient({ categories }: { categories: NavCategory[] }) {
               </button>
             }
           />
-          <Link
-            href="#contact"
-            onClick={(e) => {
-              setOpen(false);
-            }}
-            className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-ink-900 px-4 py-3 text-sm font-medium text-cream-50 dark:bg-cream-100 dark:text-ink-950"
-          >
-            Apply now
-            <svg
-              className="h-3.5 w-3.5"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.4"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M5 12h14M13 5l7 7-7 7" />
-            </svg>
-          </Link>
         </div>
       </div>
     </header>

@@ -20,10 +20,12 @@ function CategoryList({
   categories,
   activeSlug,
   onNavigate,
+  className,
 }: {
   categories: CategoryWithCount[];
   activeSlug?: string;
   onNavigate?: () => void;
+  className?: string;
 }) {
   if (categories.length === 0) {
     return (
@@ -35,14 +37,14 @@ function CategoryList({
 
   const linkClass = (active: boolean) =>
     cn(
-      "flex items-center justify-between gap-2 rounded-md px-2.5 py-2 text-sm font-medium transition-colors",
+      "flex shrink-0 items-center justify-between gap-2 rounded-md px-2.5 py-2 text-sm font-medium transition-colors",
       active
         ? "bg-brand-blue-900/10 text-brand-blue-900 dark:bg-brand-blue-300/10 dark:text-brand-blue-300"
         : "text-foreground/70 hover:bg-muted hover:text-foreground",
     );
 
   return (
-    <nav className="flex flex-col gap-0.5 mt-4">
+    <nav className={cn("flex flex-col gap-0.5 mt-4", className)}>
       <Link
         href="/search"
         onClick={onNavigate}
@@ -115,14 +117,18 @@ export function SearchMobileSidebar({
         <ListFilter className="size-4" />
         Categories
       </Button>
-      <SheetContent side="left" className="flex w-64 flex-col gap-2 p-4">
-        <SheetHeader className="p-0">
+      <SheetContent
+        side="left"
+        className="flex w-64 flex-col gap-2 overflow-hidden p-4"
+      >
+        <SheetHeader className="shrink-0 p-0">
           <SheetTitle>Categories</SheetTitle>
         </SheetHeader>
         <CategoryList
           categories={categories}
           activeSlug={activeSlug}
           onNavigate={() => setOpen(false)}
+          className="min-h-0 flex-1 overflow-y-auto overscroll-contain pb-4"
         />
       </SheetContent>
     </Sheet>
