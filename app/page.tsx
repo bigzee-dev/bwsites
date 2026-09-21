@@ -8,7 +8,6 @@ export default function Home() {
   return (
     <div className="flex flex-1 flex-col dark:bg-ink-950">
       <main className=" w-full flex-1">
-        <Navbar />
         <Hero />
         <CollectionsContainer collections={[1, 2, 3]} />
         <CategoryLinks />

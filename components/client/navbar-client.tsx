@@ -106,7 +106,7 @@ export function NavbarClient({ categories }: { categories: NavCategory[] }) {
       {/* Mobile search: sits in the bar itself so finding a site never means
           opening the menu first. Hidden from md up, where the centered search
           in the bar above already covers it. */}
-      <div className="mx-auto w-full max-w-7xl px-4 pb-2 sm:px-2 md:hidden">
+      <div className="bg-cream-50 dark:bg-ink-950 mx-auto w-full max-w-7xl px-4 pb-2 pt-3 sm:px-2 md:hidden">
         <Suspense fallback={<div className="h-8 w-full" />}>
           <NavbarSearch />
         </Suspense>

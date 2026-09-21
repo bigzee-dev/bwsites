@@ -37,7 +37,7 @@ export async function SitesGrid(props: SitesGridProps) {
 
   return (
     <div className="bg-cream-50 dark:bg-ink-950">
-      <div className="max-w-7xl mx-auto pt-16 pb-0">
+      <div className="max-w-7xl mx-auto pt-16 pb-0 px-4 sm:px-2 ">
         <div className="flex items-center justify-between">
           <h1 className="flex gap-4 items-center font-heading text-3xl font-bold dark:text-brand-blue-300 text-brand-blue-900 ">
             <span

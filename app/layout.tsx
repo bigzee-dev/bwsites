@@ -4,6 +4,7 @@ import { Footer } from "@/components/client/footer";
 import { PublicOnly } from "@/components/client/public-only";
 import { SITE_URL } from "@/lib/constants";
 import "./globals.css";
+import { Navbar } from "@/components/client/navbar";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -46,6 +47,9 @@ export default function RootLayout({
       className={`${montserrat.variable} ${dmSans.variable} ${jetbrainsMono.variable} antialiased`}
     >
       <body className="flex min-h-svh flex-col bg-cream-50 font-sans">
+        <PublicOnly>
+          <Navbar />
+        </PublicOnly>
         {children}
 
         <PublicOnly>

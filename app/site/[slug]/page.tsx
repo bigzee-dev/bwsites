@@ -13,7 +13,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { buttonVariants } from "@/components/ui/button";
-import { Navbar } from "@/components/client/navbar";
+
 import { cn } from "@/lib/utils";
 import { getSiteBySlug } from "@/lib/client/sites";
 import { categoryHref } from "@/lib/slug";
@@ -50,8 +50,6 @@ export default async function SitePage({ params }: SitePageProps) {
   return (
     <div className="flex flex-1 flex-col ">
       <main className="w-full flex-1">
-        <Navbar />
-
         <div className="bg-cream-50 dark:bg-ink-950">
           <div className="mx-auto max-w-5xl px-4 py-8 pb-20 sm:px-2">
             <BackButton />
