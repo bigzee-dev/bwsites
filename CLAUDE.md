@@ -91,3 +91,11 @@ The app heavily uses React Server Components:
 - Pages and layouts are Server Components by default
 - Server Actions handle cart mutations (add, remove, update) and cookie management
 - Client components are marked with `'use client'`
+
+## Strict Instructions
+
+"Non-negotiables: package manager is pnpm, never commit to main or never touch `.env*`"
+
+"dev server: do NOT start it yourself, ask me if it's down"
+
+"Don't touch Database or do any migrations without asking"

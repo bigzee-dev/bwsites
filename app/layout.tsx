@@ -46,6 +46,13 @@ export default function RootLayout({
       lang="en"
       className={`${montserrat.variable} ${dmSans.variable} ${jetbrainsMono.variable} antialiased`}
     >
+      <head>
+        <script
+          defer
+          src="https://umami.bigzee.app/script.js"
+          data-website-id="74d523a0-a7c0-4bf5-91a4-06a51f32b151"
+        />
+      </head>
       <body className="flex min-h-svh flex-col bg-cream-50 font-sans">
         <PublicOnly>
           <Navbar />
