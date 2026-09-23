@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Montserrat, DM_Sans, JetBrains_Mono } from "next/font/google";
 import { Footer } from "@/components/client/footer";
 import { PublicOnly } from "@/components/client/public-only";
@@ -46,14 +47,23 @@ export default function RootLayout({
       lang="en"
       className={`${montserrat.variable} ${dmSans.variable} ${jetbrainsMono.variable} antialiased`}
     >
-      <head>
-        <script
-          defer
-          src="https://umami.bigzee.app/script.js"
-          data-website-id="74d523a0-a7c0-4bf5-91a4-06a51f32b151"
-        />
-      </head>
+      <head></head>
       <body className="flex min-h-svh flex-col bg-cream-50 font-sans">
+        {/* Google tag (gtag.js) */}
+        <PublicOnly>
+          <Script
+            src="https://www.googletagmanager.com/gtag/js?id=G-TG6Z0PR6ZT"
+            strategy="afterInteractive"
+          />
+          <Script id="google-analytics" strategy="afterInteractive">
+            {`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-TG6Z0PR6ZT');
+            `}
+          </Script>
+        </PublicOnly>
         <PublicOnly>
           <Navbar />
         </PublicOnly>
