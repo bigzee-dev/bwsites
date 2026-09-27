@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ExternalLink } from "lucide-react";
-import { FaWhatsapp } from "react-icons/fa";
+import { BsWhatsapp } from "react-icons/bs";
 import { Badge } from "@/components/ui/badge";
 import { FaFacebookF } from "react-icons/fa";
 import {
@@ -165,7 +165,7 @@ export default async function SitePage({ params }: SitePageProps) {
                       "w-full",
                     )}
                   >
-                    <FaFacebookF className="size-4" />
+                    <FaFacebookF className="size-3.5" />
                     Facebook page
                   </a>
                 )}
@@ -180,7 +180,7 @@ export default async function SitePage({ params }: SitePageProps) {
                       "w-full",
                     )}
                   >
-                    <FaWhatsapp className="size-4" />
+                    <BsWhatsapp className="size-4" strokeWidth={0.5} />
                     WhatsApp
                   </a>
                 )}
