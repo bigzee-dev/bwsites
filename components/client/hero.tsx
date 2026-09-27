@@ -1,70 +1,70 @@
-import Image from "next/image";
-import Link from "next/link";
-import { lgbutton } from "@/app/css-classes";
-import { getSitesCount } from "@/lib/admin/sites";
+import { HeroSearch } from "@/components/client/hero-search";
+import { ScrollTopLink } from "@/components/client/scroll-top-link";
 import { getCategories } from "@/lib/client/categories";
+import { getSitesCount } from "@/lib/client/sites";
+
+const reveal =
+  "animate-in fade-in slide-in-from-bottom-3 duration-700 fill-mode-both motion-reduce:animate-none";
 
 export async function Hero() {
-  const sitesCount = await getSitesCount();
-  const categories = await getCategories();
+  const [sitesCount, categories] = await Promise.all([
+    getSitesCount(),
+    getCategories(),
+  ]);
+
+  const stats = [
+    { value: sitesCount, label: "Sites listed", href: "/search" },
+    { value: categories.length, label: "Categories", href: "#categories" },
+  ];
 
   return (
     <section className="relative isolate overflow-hidden">
-      {/* Backdrop layers */}
-      <div className="absolute inset-0 -z-20 bg-cream-50 dark:bg-ink-950" />
-      <div className="absolute inset-0 -z-10 grain pointer-events-none" />
-      <div className="absolute -top-32 right-[10%] -z-10 h-[420px] w-[420px] rounded-full bg-clay-200/40 blur-3xl dark:bg-clay-900/40" />
-      <div className="absolute -bottom-32 left-[5%] -z-10 h-[360px] w-[360px] rounded-full bg-forest-200/30 blur-3xl dark:bg-forest-900/30" />
+      <HeroBackdrop />
 
-      <div className="mx-auto grid max-w-7xl gap-12 px-4 pb-16 pt-10 sm:px-2 lg:grid-cols-12 lg:gap-10 lg:px-2 lg:pb-8 lg:pt-16">
-        {/* Editorial copy column */}
-        <div className="lg:col-span-7">
-          <h1 className="font-heading text-[40px] leading-[0.98] font-semibold text-balance text-ink-900 sm:text-[56px] lg:col-span-7 dark:text-ink-100">
-            The Trusted Guide to Botswana's Online World
-          </h1>
+      <div className="mx-auto flex max-w-4xl flex-col items-center px-4 pb-16 pt-14 text-center sm:px-6 sm:pt-20 lg:pb-20 lg:pt-24">
+        <h1
+          className={`${reveal} font-heading text-[40px] leading-[0.98] font-semibold text-balance text-ink-900 sm:text-[56px] dark:text-ink-100`}
+        >
+          The Trusted Guide to Botswana&apos;s Online World
+        </h1>
 
-          <p className="mt-7 max-w-xl text-base leading-[1.7] text-ink-700 text-pretty dark:text-ink-200">
-            Discover reliable websites, essential services, and the best online
-            resources Botswana has to offer -
-            <span className="mx-1 inline-flex min-w-6 items-center justify-center rounded-full bg-brand-blue-900 px-2 py-0.5 align-[0.05em] text-sm font-bold tabular-nums text-white dark:bg-brand-yellow-dark dark:text-ink-700">
-              {sitesCount}
-            </span>
-            <span className="ml-0.5 text-ink-300 text-sm italic font-sans">
-              sites listed
-            </span>
-          </p>
+        <p
+          className={`${reveal} delay-100 mt-7 max-w-xl text-base leading-[1.7] text-ink-700 text-pretty dark:text-ink-200`}
+        >
+          Discover reliable websites, essential services, and the best online
+          resources Botswana has to offer
+        </p>
 
-          <div className="border-t border-b border-accent-foreground/20 mt-6 py-5 flex flex-wrap items-center gap-x-8 gap-y-3 ">
-            <Link
-              href="/search"
-              className={`group inline-flex items-center gap-y-3 gap-x-4 rounded-xl ${lgbutton}  text-cream-50 transition hover:bg-clay-600  dark:text-ink-100 dark:hover:bg-clay-400 `}
-            >
-              Search for a site
-              <span className="grid h-6 w-6 place-items-center rounded-full bg-cream-50/15 transition group-hover:translate-x-0.5 dark:bg-ink-950/20">
-                <svg
-                  className="h-3 w-3"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M5 12h14M13 5l7 7-7 7" />
-                </svg>
-              </span>
-            </Link>
-            <Link
-              href="/#categories"
-              className="link-underline inline-flex items-center gap-2 py-3 text-sm font-medium text-ink-900 dark:text-cream-100"
-            >
-              Categories
-              <span className="font-mono text-[11px] text-clay-600 dark:text-clay-300">
-                →
-              </span>
-            </Link>
-          </div>
-          {/* Hand-set quote stack */}
+        {/* Directory stats */}
+        <div
+          className={`${reveal} delay-200 mt-8 flex items-stretch divide-x divide-brand-blue-900/10 overflow-hidden rounded-2xl border border-brand-blue-900/10 bg-white/60 backdrop-blur-sm dark:divide-white/10 dark:border-white/10 dark:bg-white/[0.03]`}
+        >
+          {stats.map((stat) => {
+            const StatLink = stat.href.startsWith("#") ? "a" : ScrollTopLink;
+
+            return (
+              <StatLink
+                key={stat.label}
+                href={stat.href}
+                className="group flex flex-col items-center gap-1 px-6 py-3 transition-colors hover:bg-brand-blue-900/[0.04] focus-visible:bg-brand-blue-900/[0.04] focus-visible:outline-none sm:px-10 sm:py-4 dark:hover:bg-white/[0.05] dark:focus-visible:bg-white/[0.05]"
+              >
+                <span className="font-heading text-3xl font-bold tabular-nums text-brand-blue-900 sm:text-4xl dark:text-brand-yellow-light">
+                  {stat.value}
+                </span>
+                <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-500 transition-colors group-hover:text-brand-blue-700 dark:text-ink-300 dark:group-hover:text-cream-100">
+                  {stat.label}
+                </span>
+              </StatLink>
+            );
+          })}
+        </div>
+
+        <div className={`${reveal} delay-300 mt-10 flex w-full justify-center`}>
+          <HeroSearch />
+        </div>
+
+        {/* Hand-set quote stack */}
+        <div className={`${reveal} delay-500`}>
           <div className="mt-6 flex items-center  gap-4 sm:flex ">
             <div className="flex -space-x-2 bg-transparent dark:bg-cream-200 rounded-xl p-1">
               {["60A5FA", "0A0A0A", "60A5FA"].map((c, i) => (
@@ -82,26 +82,10 @@ export async function Hero() {
             </p>
           </div>
         </div>
-
-        {/* Visual column — offset image with floating ticket */}
-        <div className="relative lg:col-span-5">
-          <div className="relative">
-            <div className="relative aspect-[5/4] overflow-hidden ">
-              <Image
-                src="/our-process.png"
-                alt="Botswana online services"
-                fill
-                className="object-cover"
-                priority
-                sizes="(min-width: 1024px) 40vw, 90vw"
-              />
-            </div>
-          </div>
-        </div>
       </div>
 
       {/* Newspaper-style banker strip */}
-      <div className="border-y border-ink-200/60 bg-cream-100/50 py-5 dark:border-ink-800/70 dark:bg-ink-900/40">
+      {/* <div className="border-y border-ink-200/60 bg-cream-100/50 py-5 dark:border-ink-800/70 dark:bg-ink-900/40">
         <div className="mx-auto max-w-7xl px-4 sm:px-2 lg:px-3">
           <div className="flex items-center gap-5 text-[12px] uppercase tracking-[0.3em] text-ink-500 dark:text-ink-300">
             <span className="block sm:hidden font-mono shrink-0">
@@ -124,7 +108,54 @@ export async function Hero() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </section>
+  );
+}
+
+/**
+ * Layered backdrop: base tone, a dot grid faded out from the centre,
+ * concentric "signal" rings behind the headline and two brand-coloured glows.
+ */
+function HeroBackdrop() {
+  return (
+    <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+      <div className="absolute inset-0 bg-cream-50 dark:bg-ink-950" />
+
+      <div
+        className="absolute inset-0 text-brand-blue-900/[0.13] dark:text-white/[0.07]"
+        style={{
+          backgroundImage: "radial-gradient(currentColor 1px, transparent 1px)",
+          backgroundSize: "22px 22px",
+          maskImage:
+            "radial-gradient(ellipse 70% 60% at 50% 40%, black 20%, transparent 75%)",
+          WebkitMaskImage:
+            "radial-gradient(ellipse 70% 60% at 50% 40%, black 20%, transparent 75%)",
+        }}
+      />
+
+      <svg
+        viewBox="0 0 800 800"
+        fill="none"
+        className="absolute left-1/2 top-[38%] h-[720px] w-[720px] -translate-x-1/2 -translate-y-1/2 text-brand-blue-500/20 sm:h-[960px] sm:w-[960px] dark:text-brand-blue-300/15"
+      >
+        {[120, 200, 280, 360].map((r, i) => (
+          <circle
+            key={r}
+            cx="400"
+            cy="400"
+            r={r}
+            stroke="currentColor"
+            strokeWidth="1"
+            strokeDasharray={i % 2 ? "2 6" : undefined}
+          />
+        ))}
+        <circle cx="680" cy="400" r="4" className="fill-brand-yellow-light" />
+        <circle cx="147" cy="253" r="3" className="fill-brand-blue-500" />
+      </svg>
+
+      <div className="absolute -top-40 left-1/2 h-[420px] w-[680px] -translate-x-1/2 rounded-full bg-brand-blue-300/20 blur-3xl dark:bg-brand-blue-900/40" />
+      {/* <div className="absolute -bottom-24 right-[8%] h-[280px] w-[280px] rounded-full bg-brand-yellow-light/15 blur-3xl dark:bg-brand-yellow-dark/10" /> */}
+    </div>
   );
 }

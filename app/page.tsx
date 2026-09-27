@@ -9,12 +9,10 @@ export default function Home() {
     <div className="flex flex-1 flex-col dark:bg-ink-950">
       <main className=" w-full flex-1">
         <Hero />
-        <CollectionsContainer collections={[1, 2, 3]} />
+        <CollectionsContainer collections={[1]} />
         <CategoryLinks />
 
-        <CollectionsContainer collections={[4, 5, 6]} />
         <SearchBanner />
-        <CollectionsContainer collections={[7, 8, 9]} />
       </main>
     </div>
   );

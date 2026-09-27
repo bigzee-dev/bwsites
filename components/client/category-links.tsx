@@ -101,7 +101,7 @@ export async function CategoryLinks() {
   return (
     <section
       id="categories"
-      className="mt-12 relative isolate overflow-hidden border-y border-ink-200/60 bg-cream-50 dark:border-ink-800/70 dark:bg-ink-900"
+      className="mt-12 relative isolate overflow-hidden bg-cream-50  dark:bg-ink-950"
     >
       {/* Atmospheric wash */}
       <div
@@ -121,17 +121,6 @@ export async function CategoryLinks() {
               Browse by Category
             </h2>
           </div>
-
-          <a
-            href="/search"
-            className="group inline-flex items-center gap-2 border-b border-ink-300 pb-1 font-sans text-[12px] uppercase tracking-[0.2em] text-ink-700 transition-colors hover:border-brand-yellow-light hover:text-brand-blue-900 dark:border-ink-700 dark:text-ink-200 dark:hover:text-brand-yellow-light"
-          >
-            Browse all sites
-            <ArrowRightIcon
-              aria-hidden
-              className="size-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-            />
-          </a>
         </div>
 
         {/* Rule-lined directory grid */}
@@ -170,6 +159,18 @@ export async function CategoryLinks() {
             );
           })}
         </ul>
+        <div className="w-full flex justify-center mt-10">
+          <a
+            href="/search"
+            className="group inline-flex items-center gap-2 rounded-xl border border-brand-blue-900/30 bg-transparent px-6 py-3 font-sans text-[12px] font-medium uppercase tracking-[0.2em] text-brand-blue-900 transition-colors hover:border-brand-blue-900 hover:bg-brand-blue-900/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-yellow-light active:scale-[0.98] dark:border-white/20 dark:text-ink-100 dark:hover:border-brand-yellow-light dark:hover:bg-brand-yellow-light/10 dark:hover:text-brand-yellow-light"
+          >
+            Browse all sites
+            <ArrowRightIcon
+              aria-hidden
+              className="size-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+            />
+          </a>
+        </div>
       </div>
     </section>
   );
