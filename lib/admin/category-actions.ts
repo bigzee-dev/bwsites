@@ -6,6 +6,7 @@ import { getAdminSession } from "@/lib/admin/auth";
 import { categorySchema } from "@/lib/admin/validation";
 import { Prisma } from "@/app/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
+import { categorySiteCountInclude, withSiteCount } from "@/lib/site-categories";
 
 type ActionResult = { success: true } | { success: false; error: string };
 
@@ -71,18 +72,19 @@ export async function deleteCategory(id: string): Promise<ActionResult> {
 
   const category = await prisma.category.findUnique({
     where: { id },
-    select: { _count: { select: { sites: true } } },
+    include: categorySiteCountInclude,
   });
 
   if (!category) {
     return { success: false, error: "Category not found." };
   }
 
-  if (category._count.sites > 0) {
+  const siteCount = withSiteCount(category)._count.sites;
+  if (siteCount > 0) {
     return {
       success: false,
-      error: `Cannot delete — this category is assigned to ${category._count.sites} site${
-        category._count.sites === 1 ? "" : "s"
+      error: `Cannot delete — this category is assigned to ${siteCount} site${
+        siteCount === 1 ? "" : "s"
       }. Remove it from those sites first.`,
     };
   }

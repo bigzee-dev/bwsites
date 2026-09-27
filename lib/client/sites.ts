@@ -2,13 +2,15 @@ import "server-only";
 import { unstable_cache } from "next/cache";
 
 import { prisma } from "@/lib/prisma";
+import { inCategory, siteCategoriesInclude, withCategories } from "@/lib/site-categories";
 
 export const getSites = unstable_cache(
   async function getSites() {
-    return prisma.site.findMany({
-      include: { categories: true },
+    const sites = await prisma.site.findMany({
+      include: siteCategoriesInclude,
       orderBy: { createdAt: "desc" },
     });
+    return sites.map(withCategories);
   },
   ["sites"],
   { tags: ["sites"], revalidate: 300 },
@@ -18,10 +20,11 @@ export type SiteWithCategories = Awaited<ReturnType<typeof getSites>>[number];
 
 export const getSiteBySlug = unstable_cache(
   async function getSiteBySlug(slug: string) {
-    return prisma.site.findFirst({
+    const site = await prisma.site.findFirst({
       where: { slug },
-      include: { categories: true },
+      include: siteCategoriesInclude,
     });
+    return site && withCategories(site);
   },
   ["site-by-slug"],
   { tags: ["sites"], revalidate: 300 },
@@ -29,13 +32,13 @@ export const getSiteBySlug = unstable_cache(
 
 export const searchSites = unstable_cache(
   async function searchSites(query: string = "", categoryId?: string) {
-    const sites = await prisma.site.findMany({
-      where: categoryId
-        ? { categories: { some: { id: categoryId } } }
-        : undefined,
-      include: { categories: true },
-      orderBy: [{ rank: "desc" }, { name: "asc" }],
-    });
+    const sites = (
+      await prisma.site.findMany({
+        where: categoryId ? inCategory(categoryId) : undefined,
+        include: siteCategoriesInclude,
+        orderBy: [{ rank: "desc" }, { name: "asc" }],
+      })
+    ).map(withCategories);
 
     const trimmed = query.trim().toLowerCase();
     if (!trimmed) return sites;
@@ -60,14 +63,12 @@ export const searchSites = unstable_cache(
 
 const getRelatedSiteCandidates = unstable_cache(
   async function getRelatedSiteCandidates(siteId: string, categoryId: string) {
-    return prisma.site.findMany({
-      where: {
-        id: { not: siteId },
-        categories: { some: { id: categoryId } },
-      },
-      include: { categories: true },
+    const sites = await prisma.site.findMany({
+      where: { id: { not: siteId }, ...inCategory(categoryId) },
+      include: siteCategoriesInclude,
       orderBy: { name: "asc" },
     });
+    return sites.map(withCategories);
   },
   ["related-site-candidates"],
   { tags: ["sites", "categories"], revalidate: 300 },
@@ -83,9 +84,9 @@ function shuffle<T>(items: readonly T[]): T[] {
 }
 
 /**
- * Sites drawn at random from the given site's primary category - the first one
- * the admin attached, which is also the one shown in the breadcrumb. Sites in
- * the other categories are deliberately excluded.
+ * Sites drawn at random from the given site's primary category, which is also
+ * the one shown in the breadcrumb. Candidates may hold that category in either
+ * slot; the given site's secondary category is deliberately ignored.
  *
  * The candidate query is cached; the shuffle runs per render so the selection
  * changes on every visit.

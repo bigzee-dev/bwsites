@@ -2,7 +2,7 @@
 
 import { useState, useTransition, type ReactElement } from "react";
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { Loader2, Plus } from "lucide-react";
@@ -29,7 +29,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { CategoryMultiSelect } from "@/components/admin/category-multi-select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { ImageUploadField } from "@/components/admin/image-upload-field";
 import { TagsInput } from "@/components/admin/tags-input";
 import type { CategoryWithCount } from "@/lib/admin/categories";
@@ -42,6 +48,8 @@ const inter = Inter({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
 });
+
+const NO_SECONDARY_CATEGORY = "none";
 
 type SiteFormDialogProps =
   | { mode: "create"; categories: CategoryWithCount[]; trigger?: ReactElement }
@@ -63,7 +71,8 @@ function getDefaultValues(props: SiteFormDialogProps): SiteInput {
       whatsapp: props.site.whatsapp ?? "",
       rank: props.site.rank,
       tags: props.site.tags,
-      categoryIds: props.site.categories.map((category) => category.id),
+      primaryCategoryId: props.site.primaryCategoryId,
+      secondaryCategoryId: props.site.secondaryCategoryId ?? "",
     };
   }
   return {
@@ -75,7 +84,8 @@ function getDefaultValues(props: SiteFormDialogProps): SiteInput {
     whatsapp: "",
     rank: 0,
     tags: [],
-    categoryIds: [],
+    primaryCategoryId: "",
+    secondaryCategoryId: "",
   };
 }
 
@@ -90,6 +100,11 @@ export function SiteFormDialog(props: SiteFormDialogProps) {
     resolver: zodResolver(siteSchema),
     defaultValues: getDefaultValues(props),
   });
+
+  const primaryCategoryId = useWatch({ control: form.control, name: "primaryCategoryId" });
+  const secondaryOptions = props.categories.filter(
+    (category) => category.id !== primaryCategoryId,
+  );
 
   function handleOpenChange(next: boolean) {
     setOpen(next);
@@ -117,7 +132,8 @@ export function SiteFormDialog(props: SiteFormDialogProps) {
       formData.set("whatsapp", values.whatsapp ?? "");
       formData.set("rank", String(values.rank));
       values.tags.forEach((tag) => formData.append("tags", tag));
-      values.categoryIds.forEach((id) => formData.append("categoryIds", id));
+      formData.set("primaryCategoryId", values.primaryCategoryId);
+      formData.set("secondaryCategoryId", values.secondaryCategoryId ?? "");
       if (imageFile) formData.set("image", imageFile);
 
       const result =
@@ -233,21 +249,79 @@ export function SiteFormDialog(props: SiteFormDialogProps) {
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="categoryIds"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Categories</FormLabel>
-                  <CategoryMultiSelect
-                    categories={props.categories}
-                    value={field.value}
-                    onChange={field.onChange}
-                  />
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="grid gap-4 sm:grid-cols-2">
+              <FormField
+                control={form.control}
+                name="primaryCategoryId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Primary category</FormLabel>
+                    <Select
+                      items={props.categories.map((category) => ({
+                        value: category.id,
+                        label: category.name,
+                      }))}
+                      value={field.value || null}
+                      onValueChange={(value) => {
+                        field.onChange(value ?? "");
+                        // Promoting the current secondary would leave both slots equal.
+                        if (value && form.getValues("secondaryCategoryId") === value) {
+                          form.setValue("secondaryCategoryId", "");
+                        }
+                      }}
+                    >
+                      <SelectTrigger className="h-9 w-full">
+                        <SelectValue placeholder="Select a category" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {props.categories.map((category) => (
+                          <SelectItem key={category.id} value={category.id}>
+                            {category.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="secondaryCategoryId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Secondary category (optional)</FormLabel>
+                    <Select
+                      items={[
+                        { value: NO_SECONDARY_CATEGORY, label: "None" },
+                        ...secondaryOptions.map((category) => ({
+                          value: category.id,
+                          label: category.name,
+                        })),
+                      ]}
+                      value={field.value || NO_SECONDARY_CATEGORY}
+                      onValueChange={(value) =>
+                        field.onChange(!value || value === NO_SECONDARY_CATEGORY ? "" : value)
+                      }
+                    >
+                      <SelectTrigger className="h-9 w-full">
+                        <SelectValue placeholder="None" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value={NO_SECONDARY_CATEGORY}>None</SelectItem>
+                        {secondaryOptions.map((category) => (
+                          <SelectItem key={category.id} value={category.id}>
+                            {category.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
 
             <FormField
               control={form.control}

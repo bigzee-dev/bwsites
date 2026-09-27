@@ -2,14 +2,16 @@ import "server-only";
 import { unstable_cache } from "next/cache";
 
 import { prisma } from "@/lib/prisma";
+import { categorySiteCountInclude, withSiteCount } from "@/lib/site-categories";
 import { slugify } from "@/lib/slug";
 
 export const getCategories = unstable_cache(
   async function getCategories() {
-    return prisma.category.findMany({
-      include: { _count: { select: { sites: true } } },
+    const categories = await prisma.category.findMany({
+      include: categorySiteCountInclude,
       orderBy: { name: "asc" },
     });
+    return categories.map(withSiteCount);
   },
   ["categories"],
   { tags: ["categories"], revalidate: 300 },

@@ -33,7 +33,8 @@ function parseSiteFormData(formData: FormData) {
     whatsapp: String(formData.get("whatsapp") ?? ""),
     rank: Number(formData.get("rank") ?? 0),
     tags: formData.getAll("tags").map(String),
-    categoryIds: formData.getAll("categoryIds").map(String),
+    primaryCategoryId: String(formData.get("primaryCategoryId") ?? ""),
+    secondaryCategoryId: String(formData.get("secondaryCategoryId") ?? ""),
   });
 }
 
@@ -59,7 +60,7 @@ export async function createSite(formData: FormData): Promise<ActionResult> {
     return { success: false, error: "An image is required" };
   }
 
-  const { name, url, slug, description, facebookUrl, whatsapp, rank, tags, categoryIds } =
+  const { name, url, slug, description, facebookUrl, whatsapp, rank, tags, primaryCategoryId, secondaryCategoryId } =
     parsed.data;
   const finalSlug = slug || slugify(name);
 
@@ -82,7 +83,8 @@ export async function createSite(formData: FormData): Promise<ActionResult> {
         whatsapp: whatsapp || null,
         rank,
         tags,
-        categories: { connect: categoryIds.map((id) => ({ id })) },
+        primaryCategoryId,
+        secondaryCategoryId: secondaryCategoryId || null,
       },
     });
   } catch {
@@ -102,7 +104,7 @@ export async function updateSite(id: string, formData: FormData): Promise<Action
     return { success: false, error: parsed.error.issues[0]?.message ?? "Invalid input" };
   }
 
-  const { name, url, slug, description, facebookUrl, whatsapp, rank, tags, categoryIds } =
+  const { name, url, slug, description, facebookUrl, whatsapp, rank, tags, primaryCategoryId, secondaryCategoryId } =
     parsed.data;
   const finalSlug = slug || slugify(name);
 
@@ -136,7 +138,8 @@ export async function updateSite(id: string, formData: FormData): Promise<Action
         rank,
         tags,
         ...(imageUrl ? { image: imageUrl } : {}),
-        categories: { set: categoryIds.map((categoryId) => ({ id: categoryId })) },
+        primaryCategoryId,
+        secondaryCategoryId: secondaryCategoryId || null,
       },
     });
   } catch {

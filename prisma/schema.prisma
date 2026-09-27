@@ -83,8 +83,9 @@ model Category {
   name        String
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
-  sites       Site[]
-  collections Collection[] @relation("CollectionCategoriesLink")
+  primarySites   Site[]       @relation("SitePrimaryCategory")
+  secondarySites Site[]       @relation("SiteSecondaryCategory")
+  collections    Collection[] @relation("CollectionCategoriesLink")
 
   @@unique([name])
   @@map("category")
@@ -101,11 +102,17 @@ model Site {
   whatsapp    String?
   rank        Int          @default(0)
   tags        String[]
-  categories  Category[]
   collections Collection[]
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
 
+  primaryCategoryId   String
+  primaryCategory     Category  @relation("SitePrimaryCategory", fields: [primaryCategoryId], references: [id], onDelete: Restrict)
+  secondaryCategoryId String?
+  secondaryCategory   Category? @relation("SiteSecondaryCategory", fields: [secondaryCategoryId], references: [id], onDelete: SetNull)
+
+  @@index([primaryCategoryId])
+  @@index([secondaryCategoryId])
   @@map("site")
 }
 

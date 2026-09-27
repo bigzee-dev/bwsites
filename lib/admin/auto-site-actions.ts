@@ -83,7 +83,7 @@ export async function autoCreateSite(formData: FormData): Promise<ActionResult> 
         description: content.description,
         image: imageUrl,
         tags: content.tags,
-        categories: { connect: { id: categoryId } },
+        primaryCategoryId: categoryId,
       },
     });
   } catch {

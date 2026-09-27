@@ -147,7 +147,7 @@ export function AutoSiteForm({ categories }: { categories: CategoryWithCount[] }
             name="categoryId"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Category</FormLabel>
+                <FormLabel>Primary category</FormLabel>
                 <Select
                   items={categories.map((category) => ({
                     value: category.id,

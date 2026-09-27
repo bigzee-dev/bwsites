@@ -2,12 +2,14 @@ import "server-only";
 import { cache } from "react";
 
 import { prisma } from "@/lib/prisma";
+import { siteCategoriesInclude, withCategories } from "@/lib/site-categories";
 
 export const getSites = cache(async function getSites() {
-  return prisma.site.findMany({
-    include: { categories: true },
+  const sites = await prisma.site.findMany({
+    include: siteCategoriesInclude,
     orderBy: { createdAt: "desc" },
   });
+  return sites.map(withCategories);
 });
 
 export type SiteWithCategories = Awaited<ReturnType<typeof getSites>>[number];
@@ -17,11 +19,12 @@ export async function getSitesCount() {
 }
 
 export async function getRecentSites(limit: number) {
-  return prisma.site.findMany({
-    include: { categories: true },
+  const sites = await prisma.site.findMany({
+    include: siteCategoriesInclude,
     orderBy: { createdAt: "desc" },
     take: limit,
   });
+  return sites.map(withCategories);
 }
 
 export const getSitesForSelection = cache(async function getSitesForSelection() {
