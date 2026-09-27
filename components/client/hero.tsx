@@ -77,7 +77,7 @@ export async function Hero() {
                 />
               ))}
             </div>
-            <p className="font-mono text-sm  text-ink-700 dark:text-ink-200 ">
+            <p className="font-mono text-xs  text-ink-700 dark:text-ink-200 ">
               Trusted by thousands across Botswana.
             </p>
           </div>
