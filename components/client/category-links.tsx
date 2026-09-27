@@ -101,7 +101,7 @@ export async function CategoryLinks() {
   return (
     <section
       id="categories"
-      className="mt-12 relative isolate  bg-cream-50  dark:bg-ink-950"
+      className="mt-12 relative isolate overflow-x-clip bg-cream-50  dark:bg-ink-950"
     >
       {/* Atmospheric wash */}
       <div
@@ -159,10 +159,10 @@ export async function CategoryLinks() {
             );
           })}
         </ul>
-        <div className="w-full flex justify-center mt-12">
+        <div className="w-full flex justify-center mt-10">
           <a
             href="/search"
-            className="group inline-flex items-center gap-2 rounded-xl border border-brand-blue-900/30 bg-transparent px-6 py-3.5 font-sans text-[12px] font-medium uppercase tracking-[0.2em] text-brand-blue-900 transition-colors hover:border-brand-blue-900 hover:bg-brand-blue-900/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-yellow-light active:scale-[0.98] dark:border-white/20 dark:text-ink-100 dark:hover:border-brand-yellow-light dark:hover:bg-brand-yellow-light/10 dark:hover:text-brand-yellow-light"
+            className="group inline-flex items-center gap-2 rounded-xl border border-brand-blue-900/30 bg-transparent px-6 py-3 font-sans text-[12px] font-medium uppercase tracking-[0.2em] text-brand-blue-900 transition-colors hover:border-brand-blue-900 hover:bg-brand-blue-900/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-yellow-light active:scale-[0.98] dark:border-white/20 dark:text-ink-100 dark:hover:border-brand-yellow-light dark:hover:bg-brand-yellow-light/10 dark:hover:text-brand-yellow-light"
           >
             Browse all sites
             <ArrowRightIcon

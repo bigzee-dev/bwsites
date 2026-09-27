@@ -26,7 +26,7 @@ export function SearchBanner() {
 
   return (
     <div>
-      <section className="max-w-6xl mx-auto rounded-2xl mt-10 mb-20 relative isolate overflow-hidden bg-neutral-800 dark:bg-brand-blue-900">
+      <section className="max-w-6xl mx-auto rounded-2xl mt-10 mb-24 relative isolate overflow-hidden bg-neutral-800 dark:bg-brand-blue-900">
         {/* Atmospheric wash */}
         <div
           aria-hidden
@@ -75,7 +75,7 @@ export function SearchBanner() {
               />
               <Button
                 type="submit"
-                className="h-12 shrink-0 gap-2 bg-brand-blue-700 px-8 text-ink-100 hover:bg-brand-yellow-dark dark:bg-brand-yellow-light dark:text-brand-blue-900 dark:hover:bg-brand-yellow-dark"
+                className="h-12 shrink-0 gap-2 bg-brand-blue-700 px-8 text-ink-100 hover:bg-brand-yellow-dark dark:bg-brand-yellow-light dark:text-ink-950 dark:hover:bg-brand-yellow-dark"
               >
                 <SearchIcon aria-hidden className="size-4" />
                 Search
