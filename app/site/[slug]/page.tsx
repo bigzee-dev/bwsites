@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ExternalLink, Link2 } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 import { Badge } from "@/components/ui/badge";
+import { FaFacebookF } from "react-icons/fa";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -164,7 +165,7 @@ export default async function SitePage({ params }: SitePageProps) {
                       "w-full",
                     )}
                   >
-                    <Link2 className="size-4" />
+                    <FaFacebookF className="size-4" />
                     Facebook page
                   </a>
                 )}
