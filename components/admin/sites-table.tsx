@@ -26,9 +26,19 @@ import {
 } from "@/components/ui/table";
 import { DeleteConfirmDialog } from "@/components/admin/delete-confirm-dialog";
 import { SiteFormDialog } from "@/components/admin/site-form-dialog";
+import { SiteStatusSelect } from "@/components/admin/site-status-select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import type { CategoryWithCount } from "@/lib/admin/categories";
 import { deleteSite } from "@/lib/admin/site-actions";
 import type { SiteWithCategories } from "@/lib/admin/sites";
+
+type StatusFilter = "all" | "online" | "offline";
 
 const dateFormatter = new Intl.DateTimeFormat("en-GB", {
   day: "numeric",
@@ -46,6 +56,22 @@ export function SitesTable({
   const router = useRouter();
   const [sorting, setSorting] = useState<SortingState>([{ id: "createdAt", desc: true }]);
   const [globalFilter, setGlobalFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
+
+  const offlineCount = useMemo(() => sites.filter((site) => !site.isOnline).length, [sites]);
+  const filteredSites = useMemo(
+    () =>
+      statusFilter === "all"
+        ? sites
+        : sites.filter((site) => site.isOnline === (statusFilter === "online")),
+    [sites, statusFilter]
+  );
+
+  const statusItems: { value: StatusFilter; label: string }[] = [
+    { value: "all", label: `All statuses (${sites.length})` },
+    { value: "online", label: `Online (${sites.length - offlineCount})` },
+    { value: "offline", label: `Offline (${offlineCount})` },
+  ];
 
   const columns = useMemo<ColumnDef<SiteWithCategories>[]>(
     () => [
@@ -107,25 +133,9 @@ export function SitesTable({
         ),
       },
       {
-        id: "tags",
-        header: "Tags",
-        cell: ({ row }) => {
-          const tags = row.original.tags;
-          return (
-            <div className="flex max-w-52 flex-wrap gap-1">
-              {tags.length === 0 ? (
-                <span className="text-xs text-muted-foreground">—</span>
-              ) : (
-                tags.slice(0, 3).map((tag) => (
-                  <Badge key={tag} variant="outline">
-                    {tag}
-                  </Badge>
-                ))
-              )}
-              {tags.length > 3 && <Badge variant="outline">+{tags.length - 3}</Badge>}
-            </div>
-          );
-        },
+        id: "status",
+        header: "Status",
+        cell: ({ row }) => <SiteStatusSelect site={row.original} />,
       },
       {
         accessorKey: "createdAt",
@@ -197,7 +207,7 @@ export function SitesTable({
   );
 
   const table = useReactTable({
-    data: sites,
+    data: filteredSites,
     columns,
     state: { sorting, globalFilter },
     onSortingChange: setSorting,
@@ -234,14 +244,32 @@ export function SitesTable({
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="relative max-w-xs">
-        <Search className="absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground" />
-        <Input
-          value={globalFilter}
-          onChange={(event) => setGlobalFilter(event.target.value)}
-          placeholder="Search sites..."
-          className="pl-8"
-        />
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+        <div className="relative w-full sm:max-w-xs">
+          <Search className="absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            value={globalFilter}
+            onChange={(event) => setGlobalFilter(event.target.value)}
+            placeholder="Search sites..."
+            className="pl-8"
+          />
+        </div>
+        <Select
+          items={statusItems}
+          value={statusFilter}
+          onValueChange={(value) => setStatusFilter(value ?? "all")}
+        >
+          <SelectTrigger className="w-full sm:w-44" aria-label="Filter by status">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {statusItems.map((item) => (
+              <SelectItem key={item.value} value={item.value}>
+                {item.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
       <div className="rounded-lg border border-border">
         <Table>
@@ -262,7 +290,9 @@ export function SitesTable({
             {table.getRowModel().rows.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={columns.length} className="py-10 text-center text-sm text-muted-foreground">
-                  No sites match &ldquo;{globalFilter}&rdquo;.
+                  {globalFilter
+                    ? <>No {statusFilter === "all" ? "" : `${statusFilter} `}sites match &ldquo;{globalFilter}&rdquo;.</>
+                    : `No ${statusFilter} sites.`}
                 </TableCell>
               </TableRow>
             ) : (

@@ -158,6 +158,26 @@ export async function updateSite(id: string, formData: FormData): Promise<Action
   return { success: true };
 }
 
+export async function setSiteOnline(id: string, isOnline: boolean): Promise<ActionResult> {
+  const session = await getAdminSession();
+  if (!session) return { success: false, error: "Unauthorized" };
+
+  if (typeof isOnline !== "boolean") {
+    return { success: false, error: "Invalid status" };
+  }
+
+  try {
+    await prisma.site.update({ where: { id }, data: { isOnline } });
+  } catch {
+    return { success: false, error: "Failed to update site status. Please try again." };
+  }
+
+  revalidateSitePaths();
+  // Visitor-facing category counts only include online sites.
+  updateTag("categories");
+  return { success: true };
+}
+
 export async function deleteSite(id: string): Promise<ActionResult> {
   const session = await getAdminSession();
   if (!session) return { success: false, error: "Unauthorized" };

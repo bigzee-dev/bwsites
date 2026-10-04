@@ -16,11 +16,13 @@ function StatCard({
   value,
   icon: Icon,
   href,
+  hint,
 }: {
   label: string;
   value: number;
   icon: LucideIcon;
   href: string;
+  hint?: string;
 }) {
   return (
     <Link href={href} className="group block">
@@ -30,7 +32,10 @@ function StatCard({
           <Icon className="size-4 text-muted-foreground" />
         </CardHeader>
         <CardContent className="flex items-end justify-between">
-          <p className="text-3xl font-semibold tracking-tight text-foreground">{value}</p>
+          <div>
+            <p className="text-3xl font-semibold tracking-tight text-foreground">{value}</p>
+            {hint && <p className="mt-1 text-xs text-muted-foreground">{hint}</p>}
+          </div>
           <ArrowUpRight className="size-4 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
         </CardContent>
       </Card>
@@ -43,12 +48,18 @@ export function DashboardHome({
 }: {
   stats: Awaited<ReturnType<typeof getDashboardStats>>;
 }) {
-  const { totalSites, totalCategories, totalCollections, recentSites } = stats;
+  const { totalSites, offlineSites, totalCategories, totalCollections, recentSites } = stats;
 
   return (
     <div className="flex flex-col gap-6">
       <div className="grid gap-4 sm:grid-cols-3">
-        <StatCard label="Total sites" value={totalSites} icon={Globe2} href="/admin/sites" />
+        <StatCard
+          label="Total sites"
+          value={totalSites}
+          icon={Globe2}
+          href="/admin/sites"
+          hint={offlineSites > 0 ? `${offlineSites} offline, not counted` : undefined}
+        />
         <StatCard label="Total categories" value={totalCategories} icon={Tags} href="/admin/categories" />
         <StatCard label="Total collections" value={totalCollections} icon={Layers} href="/admin/collections" />
       </div>

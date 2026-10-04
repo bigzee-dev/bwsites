@@ -101,6 +101,7 @@ model Site {
   facebookUrl String?
   whatsapp    String?
   rank        Int          @default(0)
+  isOnline    Boolean      @default(true)
   tags        String[]
   collections Collection[]
   createdAt   DateTime     @default(now())
@@ -113,6 +114,7 @@ model Site {
 
   @@index([primaryCategoryId])
   @@index([secondaryCategoryId])
+  @@index([isOnline])
   @@map("site")
 }
 

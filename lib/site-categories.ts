@@ -37,3 +37,16 @@ export function withSiteCount<
 export const categorySiteCountInclude = {
   _count: { select: { primarySites: true, secondarySites: true } },
 } satisfies Prisma.CategoryInclude;
+
+/** Sites the admin has taken offline stay in the database but are hidden from visitors. */
+export const onlineSite = { isOnline: true } satisfies Prisma.SiteWhereInput;
+
+/** Like `categorySiteCountInclude`, but only counts sites visitors can see. */
+export const categoryOnlineSiteCountInclude = {
+  _count: {
+    select: {
+      primarySites: { where: onlineSite },
+      secondarySites: { where: onlineSite },
+    },
+  },
+} satisfies Prisma.CategoryInclude;

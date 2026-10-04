@@ -2,11 +2,12 @@ import "server-only";
 import { unstable_cache } from "next/cache";
 
 import { prisma } from "@/lib/prisma";
-import { inCategory, siteCategoriesInclude, withCategories } from "@/lib/site-categories";
+import { inCategory, onlineSite, siteCategoriesInclude, withCategories } from "@/lib/site-categories";
 
 export const getSites = unstable_cache(
   async function getSites() {
     const sites = await prisma.site.findMany({
+      where: onlineSite,
       include: siteCategoriesInclude,
       orderBy: { createdAt: "desc" },
     });
@@ -21,7 +22,7 @@ export type SiteWithCategories = Awaited<ReturnType<typeof getSites>>[number];
 export const getSiteBySlug = unstable_cache(
   async function getSiteBySlug(slug: string) {
     const site = await prisma.site.findFirst({
-      where: { slug },
+      where: { slug, ...onlineSite },
       include: siteCategoriesInclude,
     });
     return site && withCategories(site);
@@ -34,7 +35,7 @@ export const searchSites = unstable_cache(
   async function searchSites(query: string = "", categoryId?: string) {
     const sites = (
       await prisma.site.findMany({
-        where: categoryId ? inCategory(categoryId) : undefined,
+        where: categoryId ? { ...onlineSite, ...inCategory(categoryId) } : onlineSite,
         include: siteCategoriesInclude,
         orderBy: [{ rank: "desc" }, { name: "asc" }],
       })
@@ -64,7 +65,7 @@ export const searchSites = unstable_cache(
 const getRelatedSiteCandidates = unstable_cache(
   async function getRelatedSiteCandidates(siteId: string, categoryId: string) {
     const sites = await prisma.site.findMany({
-      where: { id: { not: siteId }, ...inCategory(categoryId) },
+      where: { id: { not: siteId }, ...onlineSite, ...inCategory(categoryId) },
       include: siteCategoriesInclude,
       orderBy: { name: "asc" },
     });
@@ -108,7 +109,7 @@ export async function getRelatedSites(
 
 export const getSitesCount = unstable_cache(
   async function getSitesCount() {
-    return prisma.site.count();
+    return prisma.site.count({ where: onlineSite });
   },
   ["sites-count"],
   { tags: ["sites"], revalidate: 300 },

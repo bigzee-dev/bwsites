@@ -3,10 +3,10 @@ import { unstable_cache } from "next/cache";
 
 import { Prisma } from "@/app/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
-import { siteCategoriesInclude, withCategories } from "@/lib/site-categories";
+import { onlineSite, siteCategoriesInclude, withCategories } from "@/lib/site-categories";
 
 const collectionInclude = {
-  sites: { include: siteCategoriesInclude, orderBy: { name: "asc" } },
+  sites: { where: onlineSite, include: siteCategoriesInclude, orderBy: { name: "asc" } },
   categoriesLink: true,
 } satisfies Prisma.CollectionInclude;
 

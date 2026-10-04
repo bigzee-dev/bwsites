@@ -2,7 +2,7 @@ import "server-only";
 import { cache } from "react";
 
 import { prisma } from "@/lib/prisma";
-import { siteCategoriesInclude, withCategories } from "@/lib/site-categories";
+import { onlineSite, siteCategoriesInclude, withCategories } from "@/lib/site-categories";
 
 export const getSites = cache(async function getSites() {
   const sites = await prisma.site.findMany({
@@ -14,8 +14,13 @@ export const getSites = cache(async function getSites() {
 
 export type SiteWithCategories = Awaited<ReturnType<typeof getSites>>[number];
 
+/** Only online sites count toward the directory total, matching what visitors see. */
 export async function getSitesCount() {
-  return prisma.site.count();
+  return prisma.site.count({ where: onlineSite });
+}
+
+export async function getOfflineSitesCount() {
+  return prisma.site.count({ where: { isOnline: false } });
 }
 
 export async function getRecentSites(limit: number) {
