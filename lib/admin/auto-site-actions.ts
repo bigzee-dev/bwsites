@@ -5,6 +5,7 @@ import { revalidatePath, updateTag } from "next/cache";
 import { getAdminSession } from "@/lib/admin/auth";
 import { toWebpFilename } from "@/lib/admin/image";
 import { deleteImageFromR2, uploadBufferToR2 } from "@/lib/admin/r2";
+import { findDuplicateSiteError } from "@/lib/admin/site-duplicates";
 import { ScreenshotError, captureScreenshot, toWebp } from "@/lib/admin/screenshot";
 import { SiteContentError, generateSiteContent } from "@/lib/admin/site-content";
 import { autoSiteSchema } from "@/lib/admin/validation";
@@ -44,6 +45,10 @@ export async function autoCreateSite(formData: FormData): Promise<ActionResult> 
   }
 
   const { name, url, imageName, categoryId } = parsed.data;
+
+  // Check before generating content or capturing a screenshot, so a duplicate costs nothing.
+  const duplicateError = await findDuplicateSiteError({ url });
+  if (duplicateError) return { success: false, error: duplicateError };
 
   // Run both before uploading anything, so a failure on either side leaves no
   // orphaned object in R2.

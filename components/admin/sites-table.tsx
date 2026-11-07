@@ -4,14 +4,25 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   type ColumnDef,
+  type PaginationState,
   type SortingState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
+  getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ArrowUpDown, ExternalLink, Globe2, Pencil, Search, Trash2 } from "lucide-react";
+import {
+  ArrowUpDown,
+  ChevronLeft,
+  ChevronRight,
+  ExternalLink,
+  Globe2,
+  Pencil,
+  Search,
+  Trash2,
+} from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -40,6 +51,8 @@ import type { SiteWithCategories } from "@/lib/admin/sites";
 
 type StatusFilter = "all" | "online" | "offline";
 
+const PAGE_SIZE = 50;
+
 const dateFormatter = new Intl.DateTimeFormat("en-GB", {
   day: "numeric",
   month: "short",
@@ -57,6 +70,12 @@ export function SitesTable({
   const [sorting, setSorting] = useState<SortingState>([{ id: "createdAt", desc: true }]);
   const [globalFilter, setGlobalFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: PAGE_SIZE,
+  });
+
+  const resetPage = () => setPagination((prev) => ({ ...prev, pageIndex: 0 }));
 
   const offlineCount = useMemo(() => sites.filter((site) => !site.isOnline).length, [sites]);
   const filteredSites = useMemo(
@@ -209,9 +228,17 @@ export function SitesTable({
   const table = useReactTable({
     data: filteredSites,
     columns,
-    state: { sorting, globalFilter },
-    onSortingChange: setSorting,
+    state: { sorting, globalFilter, pagination },
+    // Edits, deletes and status changes refresh the data; keep the admin on the
+    // page they were working on instead of jumping back to page 1.
+    autoResetPageIndex: false,
+    onSortingChange: (updater) => {
+      setSorting(updater);
+      resetPage();
+    },
     onGlobalFilterChange: setGlobalFilter,
+    onPaginationChange: setPagination,
+    getRowId: (row) => row.id,
     globalFilterFn: (row, _columnId, filterValue) => {
       const q = String(filterValue).toLowerCase();
       const site = row.original;
@@ -225,7 +252,18 @@ export function SitesTable({
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
   });
+
+  const matchCount = table.getFilteredRowModel().rows.length;
+  const pageCount = table.getPageCount();
+  // Deleting the last site on the last page would otherwise leave an empty page.
+  if (pageCount > 0 && pagination.pageIndex > pageCount - 1) {
+    setPagination((prev) => ({ ...prev, pageIndex: pageCount - 1 }));
+  }
+  const { pageIndex } = pagination;
+  const firstOnPage = matchCount === 0 ? 0 : pageIndex * PAGE_SIZE + 1;
+  const lastOnPage = Math.min((pageIndex + 1) * PAGE_SIZE, matchCount);
 
   if (sites.length === 0) {
     return (
@@ -249,7 +287,10 @@ export function SitesTable({
           <Search className="absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             value={globalFilter}
-            onChange={(event) => setGlobalFilter(event.target.value)}
+            onChange={(event) => {
+              setGlobalFilter(event.target.value);
+              resetPage();
+            }}
             placeholder="Search sites..."
             className="pl-8"
           />
@@ -257,7 +298,10 @@ export function SitesTable({
         <Select
           items={statusItems}
           value={statusFilter}
-          onValueChange={(value) => setStatusFilter(value ?? "all")}
+          onValueChange={(value) => {
+            setStatusFilter(value ?? "all");
+            resetPage();
+          }}
         >
           <SelectTrigger className="w-full sm:w-44" aria-label="Filter by status">
             <SelectValue />
@@ -270,6 +314,12 @@ export function SitesTable({
             ))}
           </SelectContent>
         </Select>
+        {matchCount > 0 && (
+          <p className="text-sm text-muted-foreground sm:ml-auto">
+            Showing {firstOnPage}–{lastOnPage} of {matchCount}{" "}
+            {globalFilter ? "matches" : "sites"}
+          </p>
+        )}
       </div>
       <div className="rounded-lg border border-border">
         <Table>
@@ -309,6 +359,36 @@ export function SitesTable({
           </TableBody>
         </Table>
       </div>
+
+      {pageCount > 1 && (
+        <div className="flex items-center justify-between gap-3">
+          <p className="text-sm text-muted-foreground">
+            Page {pageIndex + 1} of {pageCount}
+          </p>
+          <div className="flex items-center gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              disabled={!table.getCanPreviousPage()}
+              onClick={() => table.previousPage()}
+            >
+              <ChevronLeft className="size-3.5" />
+              Previous
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              disabled={!table.getCanNextPage()}
+              onClick={() => table.nextPage()}
+            >
+              Next
+              <ChevronRight className="size-3.5" />
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

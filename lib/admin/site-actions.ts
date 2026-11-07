@@ -5,6 +5,7 @@ import { revalidatePath, updateTag } from "next/cache";
 import { getAdminSession } from "@/lib/admin/auth";
 import { ImageProcessingError, optimizeImageToWebp, toWebpFilename } from "@/lib/admin/image";
 import { deleteImageFromR2, uploadBufferToR2 } from "@/lib/admin/r2";
+import { findDuplicateSiteError } from "@/lib/admin/site-duplicates";
 import { siteSchema } from "@/lib/admin/validation";
 import { prisma } from "@/lib/prisma";
 import { slugify } from "@/lib/slug";
@@ -64,6 +65,9 @@ export async function createSite(formData: FormData): Promise<ActionResult> {
     parsed.data;
   const finalSlug = slug || slugify(name);
 
+  const duplicateError = await findDuplicateSiteError({ url, slug: finalSlug });
+  if (duplicateError) return { success: false, error: duplicateError };
+
   let imageUrl: string;
   try {
     imageUrl = await storeOptimizedImage(imageFile, finalSlug);
@@ -107,6 +111,9 @@ export async function updateSite(id: string, formData: FormData): Promise<Action
   const { name, url, slug, description, facebookUrl, whatsapp, rank, tags, primaryCategoryId, secondaryCategoryId } =
     parsed.data;
   const finalSlug = slug || slugify(name);
+
+  const duplicateError = await findDuplicateSiteError({ url, slug: finalSlug }, id);
+  if (duplicateError) return { success: false, error: duplicateError };
 
   const imageFile = formData.get("image");
   let imageUrl: string | undefined;
